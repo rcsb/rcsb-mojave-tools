@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Handcrafted schema from xml (https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=NC_000011&from=532242&to=535567&strand=2&retmode=xml)
+    Created with Liquid Technologies Online Tools 1.0 (https://www.liquid-technologies.com)
+    @author Joan Segura Mora
+-->
+   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+         <xs:element name="GBSet">
+               <xs:complexType>
+                     <xs:sequence>
+                           <xs:element name="GBSeq" maxOccurs="unbounded">
+                                 <xs:complexType>
+                                       <xs:sequence>
+                                             <xs:element name="GBSeq_locus" type="xs:string"></xs:element>
+                                             <xs:element name="GBSeq_length" type="xs:int"></xs:element>
+                                             <xs:element name="GBSeq_strandedness" type="xs:string"></xs:element>
+                                             <xs:element name="GBSeq_moltype" type="xs:string"></xs:element>
+                                             <xs:element name="GBSeq_topology" type="xs:string"></xs:element>
+                                             <xs:element name="GBSeq_division" type="xs:string"></xs:element>
+                                             <xs:element name="GBSeq_update-date" type="xs:string"></xs:element>
+                                             <xs:element name="GBSeq_create-date" type="xs:string"></xs:element>
+                                             <xs:element name="GBSeq_definition" type="xs:string"></xs:element>
+                                             <xs:element name="GBSeq_primary-accession" type="xs:string"></xs:element>
+                                             <xs:element name="GBSeq_accession-version" type="xs:string"></xs:element>
+                                             <xs:element name="GBSeq_other-seqids">
+                                                   <xs:complexType>
+                                                         <xs:sequence>
+                                                               <xs:element name="GBSeqid" maxOccurs="unbounded" type="xs:string"></xs:element>
+                                                         </xs:sequence>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                             <xs:element name="GBSeq_project" type="xs:string"></xs:element>
+                                             <xs:element name="GBSeq_keywords">
+                                                   <xs:complexType>
+                                                         <xs:sequence>
+                                                               <xs:element name="GBKeyword" type="xs:string"></xs:element>
+                                                         </xs:sequence>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                             <xs:element name="GBSeq_source" type="xs:string"></xs:element>
+                                             <xs:element name="GBSeq_organism" type="xs:string"></xs:element>
+                                             <xs:element name="GBSeq_taxonomy" type="xs:string"></xs:element>
+                                             <xs:element name="GBSeq_references">
+                                                   <xs:complexType>
+                                                         <xs:sequence>
+                                                               <xs:element name="GBReference" maxOccurs="unbounded">
+                                                                     <xs:complexType>
+                                                                           <xs:sequence>
+                                                                                 <xs:element name="GBReference_reference" type="xs:int"></xs:element>
+                                                                                 <xs:element name="GBReference_position" type="xs:string"></xs:element>
+                                                                                 <xs:element name="GBReference_authors">
+                                                                                       <xs:complexType>
+                                                                                             <xs:sequence>
+                                                                                                   <xs:element name="GBAuthor" maxOccurs="unbounded" type="xs:string"></xs:element>
+                                                                                             </xs:sequence>
+                                                                                       </xs:complexType>
+                                                                                 </xs:element>
+                                                                                 <xs:element name="GBReference_title" type="xs:string"></xs:element>
+                                                                                 <xs:element name="GBReference_journal" type="xs:string"></xs:element>
+                                                                                 <xs:element name="GBReference_xref">
+                                                                                       <xs:complexType>
+                                                                                             <xs:sequence>
+                                                                                                   <xs:element name="GBXref">
+                                                                                                         <xs:complexType>
+                                                                                                               <xs:sequence>
+                                                                                                                     <xs:element name="GBXref_dbname" type="xs:string"></xs:element>
+                                                                                                                     <xs:element name="GBXref_id" type="xs:string"></xs:element>
+                                                                                                               </xs:sequence>
+                                                                                                         </xs:complexType>
+                                                                                                   </xs:element>
+                                                                                             </xs:sequence>
+                                                                                       </xs:complexType>
+                                                                                 </xs:element>
+                                                                                 <xs:element name="GBReference_pubmed" type="xs:int"></xs:element>
+                                                                           </xs:sequence>
+                                                                     </xs:complexType>
+                                                               </xs:element>
+                                                         </xs:sequence>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                             <xs:element name="GBSeq_comment" type="xs:string"></xs:element>
+                                             <xs:element name="GBSeq_feature-table">
+                                                   <xs:complexType>
+                                                         <xs:sequence>
+                                                               <xs:element name="GBFeature" maxOccurs="unbounded">
+                                                                     <xs:complexType>
+                                                                           <xs:sequence>
+                                                                                 <xs:element name="GBFeature_key" type="xs:string"></xs:element>
+                                                                                 <xs:element name="GBFeature_location" type="xs:string"></xs:element>
+                                                                                 <xs:element name="GBFeature_intervals">
+                                                                                       <xs:complexType>
+                                                                                             <xs:sequence>
+                                                                                                   <xs:element name="GBInterval" maxOccurs="unbounded">
+                                                                                                         <xs:complexType>
+                                                                                                               <xs:sequence>
+                                                                                                                     <xs:element name="GBInterval_from" type="xs:int"></xs:element>
+                                                                                                                     <xs:element name="GBInterval_to" type="xs:int"></xs:element>
+                                                                                                                     <xs:element name="GBInterval_accession" type="xs:string"></xs:element>
+                                                                                                               </xs:sequence>
+                                                                                                         </xs:complexType>
+                                                                                                   </xs:element>
+                                                                                             </xs:sequence>
+                                                                                       </xs:complexType>
+                                                                                 </xs:element>
+                                                                                 <xs:element name="GBFeature_quals">
+                                                                                       <xs:complexType>
+                                                                                             <xs:sequence>
+                                                                                                   <xs:element name="GBQualifier" maxOccurs="unbounded">
+                                                                                                         <xs:complexType>
+                                                                                                               <xs:sequence>
+                                                                                                                     <xs:element name="GBQualifier_name" type="xs:string"></xs:element>
+                                                                                                                     <xs:element name="GBQualifier_value" type="xs:string"></xs:element>
+                                                                                                               </xs:sequence>
+                                                                                                         </xs:complexType>
+                                                                                                   </xs:element>
+                                                                                             </xs:sequence>
+                                                                                       </xs:complexType>
+                                                                                 </xs:element>
+                                                                           </xs:sequence>
+                                                                     </xs:complexType>
+                                                               </xs:element>
+                                                         </xs:sequence>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                             <xs:element name="GBSeq_sequence" type="xs:string"></xs:element>
+                                             <xs:element name="GBSeq_xrefs">
+                                                   <xs:complexType>
+                                                         <xs:sequence>
+                                                               <xs:element name="GBXref" maxOccurs="unbounded">
+                                                                     <xs:complexType>
+                                                                           <xs:sequence>
+                                                                                 <xs:element name="GBXref_dbname" type="xs:string"></xs:element>
+                                                                                 <xs:element name="GBXref_id" type="xs:string"></xs:element>
+                                                                           </xs:sequence>
+                                                                     </xs:complexType>
+                                                               </xs:element>
+                                                         </xs:sequence>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                       </xs:sequence>
+                                 </xs:complexType>
+                           </xs:element>
+                     </xs:sequence>
+               </xs:complexType>
+         </xs:element>
+   </xs:schema>

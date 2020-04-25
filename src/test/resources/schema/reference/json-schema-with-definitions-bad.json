@@ -1,0 +1,20 @@
+{
+  "$id": "/schema/reference/json-schema-with-definitions-bad.json",
+  "type": "object",
+  "definitions": {
+    "field_1_fragment": {
+      "type":"sting"
+    },
+    "field_2_fragment": {
+      "type":"sting"
+    }
+  },
+  "properties": {
+    "field_1": {
+      "$ref":"#/definitions/field_1_fragment"
+    },
+    "field_2": {
+      "$ref":"#/definitions/field_3_fragment"
+    }
+  }
+}

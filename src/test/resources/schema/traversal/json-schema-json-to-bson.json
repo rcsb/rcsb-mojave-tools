@@ -1,0 +1,43 @@
+{
+  "type": "object",
+  "properties": {
+    "field1": {
+      "type": "integer",
+      "description":"keep me",
+      "unwanted_meta": [
+        {
+          "value": "remove me"
+        }
+      ]
+    },
+    "field2": {
+      "type": "object",
+      "properties": {
+        "field3": {
+          "type": "string",
+          "unwanted_meta": "remove me"
+        }
+      },
+      "description": "this node has specification extension keywords"
+    },
+    "field3": {
+      "type": "array",
+      "items": {
+        "type": "number",
+        "unwanted_meta": "remove me"
+      }
+    },
+    "field4": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "field5": {
+            "type": "string",
+            "unwanted_meta": "remove me"
+          }
+        }
+      }
+    }
+  }
+}

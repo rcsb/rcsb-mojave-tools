@@ -1,0 +1,8 @@
+{
+  "type": "object",
+  "properties": {
+    "field": {
+      "$ref": "/schema/resolving/json-schema-fragment.json#/definitions/fragment"
+    }
+  }
+}

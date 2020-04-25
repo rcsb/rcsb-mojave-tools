@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "unique ID"
+    },
+    "bad_node": {
+      "type": "string",
+      "bad_key": "I will brake your implementation!",
+      "description": "this node has specification extension keywords"
+    }
+  }
+}

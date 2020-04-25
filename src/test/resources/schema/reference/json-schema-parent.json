@@ -1,0 +1,27 @@
+{
+  "$id": "/schema/reference/json-schema-parent.json",
+  "type": "object",
+  "title": "Parent",
+  "properties": {
+    "parent_name":{
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "type 1",
+        "type 2"
+      ]
+    },
+    "child": {
+      "anyOf": [
+        {
+          "$ref": "json-schema-child-1.json"
+        },
+        {
+          "$ref": "json-schema-child-2.json"
+        }
+      ]
+    }
+  }
+}

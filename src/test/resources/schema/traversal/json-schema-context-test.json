@@ -1,0 +1,33 @@
+{
+  "type": "object",
+  "properties": {
+    "simple_attribute": {
+      "type": "integer"
+    },
+    "object_node": {
+      "type": "object",
+      "properties": {
+        "nested_attribute": {
+          "type": "string"
+        }
+      }
+    },
+    "array_node": {
+      "type" : "array",
+      "items" : {
+          "type": "object",
+          "properties": {
+            "array_element": {
+              "type": "string"
+            }
+          }
+        }
+    },
+    "simple_array": {
+      "type" : "array",
+      "items" : {
+        "type": "integer"
+      }
+    }
+  }
+}

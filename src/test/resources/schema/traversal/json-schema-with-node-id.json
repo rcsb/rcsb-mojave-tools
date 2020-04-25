@@ -1,0 +1,28 @@
+{
+  "id": 1,
+  "type": "object",
+  "properties": {
+    "nameA": {
+      "id": 2,
+      "type": "string"
+    },
+    "nameB": {
+      "id": 3,
+      "type": "array",
+      "items": {
+        "id": 4,
+        "type": "object",
+        "properties": {
+          "nameC": {
+              "id": 5,
+              "type": "number"
+            },
+          "nameD": {
+              "id": 6,
+              "type": "integer"
+            }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings version="2.1"
+              xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+              xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+              xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <jaxb:bindings schemaLocation="../../../../target/generated-sources/xsd/uniprot/uniprot.xsd" node="/xs:schema">
+
+        <jaxb:globalBindings localScoping="toplevel" enableJavaNamingConventions="true">
+            <jaxb:javaType name="java.util.Date" xmlType="xs:date"/>
+            <xjc:serializable uid="1" />
+        </jaxb:globalBindings>
+
+        <jaxb:bindings
+                node="//xs:complexType[@name='organismNameType']/xs:simpleContent/xs:extension/xs:attribute[@name='type']/xs:simpleType">
+            <jaxb:typesafeEnumClass name="OrganismNameTypeEnum" />
+        </jaxb:bindings>
+
+        <jaxb:bindings
+                node="//xs:complexType[@name='geneNameType']/xs:simpleContent/xs:extension/xs:attribute[@name='type']/xs:simpleType">
+            <jaxb:typesafeEnumClass name="GeneNameTypeEnum" />
+        </jaxb:bindings>
+
+        <jaxb:bindings
+                node="//xs:complexType[@name='commentType']/xs:attribute[@name='type']/xs:simpleType">
+            <jaxb:typesafeEnumClass name="CommentTypeEnum" />
+        </jaxb:bindings>
+
+        <jaxb:bindings
+                node="//xs:complexType[@name='featureType']/xs:attribute[@name='type']/xs:simpleType">
+            <jaxb:typesafeEnumClass name="FeatureTypeEnum" />
+        </jaxb:bindings>
+
+        <jaxb:bindings
+                node="//xs:complexType[@name='isoformType']/xs:sequence/xs:element[@name='sequence']/xs:complexType">
+            <jaxb:class name="IsoformTypeSequence"></jaxb:class>
+        </jaxb:bindings>
+
+        <jaxb:bindings
+                node="//xs:complexType[@name='commentType']/xs:sequence/xs:choice/xs:element[@name='conflict']/xs:complexType/xs:sequence/xs:element[@name='sequence']/xs:complexType">
+            <jaxb:class name="CommentConflictSequence"></jaxb:class>
+        </jaxb:bindings>
+
+    </jaxb:bindings>
+
+</jaxb:bindings>

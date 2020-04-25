@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<jaxb:bindings xmlns="http://java.sun.com/xml/ns/jaxws"
+          xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+          xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+          version="2.1">
+
+    <jaxb:globalBindings localScoping="toplevel">
+        <jaxb:javaType name="java.util.Date" xmlType="xsd:date"/>
+        <xjc:serializable uid="10"/>
+    </jaxb:globalBindings>
+
+    <jaxb:bindings
+            schemaLocation="../../../../target/generated-sources/xsd/sifts/eFamily.xsd"
+            node="/xsd:schema[@targetNamespace='http://www.ebi.ac.uk/pdbe/docs/sifts/eFamily.xsd']">
+
+        <jaxb:bindings
+                node="//xsd:element[@name='entry']/xsd:complexType/xsd:sequence/xsd:element[@name='listDB']/xsd:complexType/xsd:sequence/xsd:element[@name='db']/xsd:complexType">
+            <jaxb:class name="RefDb"></jaxb:class>
+        </jaxb:bindings>
+
+        <jaxb:bindings
+                node="//xsd:element[@name='entry']/xsd:complexType/xsd:sequence/xsd:element[@name='entity']/xsd:complexType/xsd:sequence/xsd:element[@name='segment']/xsd:complexType">
+            <jaxb:class name="EntitySegment"></jaxb:class>
+        </jaxb:bindings>
+
+    </jaxb:bindings>
+
+    <jaxb:bindings
+            schemaLocation="../../../../target/generated-sources/xsd/sifts/dataTypes.xsd"
+            node="/xsd:schema[@targetNamespace='http://www.ebi.ac.uk/pdbe/docs/sifts/dataTypes.xsd']">
+
+        <jaxb:bindings
+                node="//xsd:attributeGroup[@name='dbRef']/xsd:attribute[@name='dbSource']/xsd:simpleType">
+            <jaxb:typesafeEnumClass name="DbSourceEnum" />
+        </jaxb:bindings>
+
+        <jaxb:bindings
+                node="//xsd:attributeGroup[@name='dbRef']/xsd:attribute[@name='dbCoordSys']/xsd:simpleType">
+            <jaxb:typesafeEnumClass name="DbCoordSysEnum" />
+        </jaxb:bindings>
+
+    </jaxb:bindings>
+
+</jaxb:bindings>

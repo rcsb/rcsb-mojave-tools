@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "properties": {
+    "ref_field": {
+      "$ref": "json-schema-external-ref-resolution.json#/properties/array_field_name/items"
+    },
+    "non_ref_field": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The release date of the latest revision item."
+    }
+  }
+}

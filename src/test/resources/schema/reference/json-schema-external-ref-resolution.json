@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "properties": {
+    "array_field_name": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "simple_field": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

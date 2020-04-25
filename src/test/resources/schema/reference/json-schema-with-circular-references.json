@@ -1,0 +1,36 @@
+{
+  "$id": "/schema/reference/json-schema-with-circular-references.json",
+  "type": "object",
+  "definitions": {
+    "simple_type": {
+      "type":"integer"
+    },
+    "complex_type": {
+      "type":"object",
+      "properties": {
+        "complex_field": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/simple_type"
+            },
+            {
+              "$ref": "#/definitions/complex_type"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "properties": {
+    "node": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/simple_type"
+        },
+        {
+          "$ref": "#/definitions/complex_type"
+        }
+      ]
+    }
+  }
+}

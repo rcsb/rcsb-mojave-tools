@@ -1,0 +1,190 @@
+{
+  "type": "object",
+  "properties": {
+    "field_1": {
+      "type": "integer",
+      "rcsb_search_context": [
+        "default-match"
+      ]
+    },
+    "field_2": {
+      "type": "number",
+      "rcsb_search_context": [
+        "default-match"
+      ]
+    },
+    "field_3": {
+      "type": "string",
+      "format": "date-time",
+      "rcsb_search_context": [
+        "default-match"
+      ]
+    },
+    "field_4": {
+      "type": "string",
+      "rcsb_search_context": [
+        "full-text"
+      ]
+    },
+    "field_5": {
+      "type": "string",
+      "rcsb_search_context": [
+        "exact-match"
+      ]
+    },
+    "field_6": {
+      "type": "string",
+      "rcsb_search_context": [
+        "exact-match",
+        "full-text"
+      ]
+    },
+    "field_7": {
+      "type": "object",
+      "properties": {
+        "field_1": {
+          "type": "integer",
+          "rcsb_search_context": [
+            "default-match"
+          ]
+        },
+        "field_2": {
+          "type": "number",
+          "rcsb_search_context": [
+            "default-match"
+          ]
+        },
+        "field_3": {
+          "type": "string",
+          "format": "date-time",
+          "rcsb_search_context": [
+            "default-match"
+          ]
+        },
+        "field_4": {
+          "type": "string",
+          "rcsb_search_context": [
+            "full-text"
+          ]
+        },
+        "field_5": {
+          "type": "string",
+          "rcsb_search_context": [
+            "exact-match"
+          ]
+        },
+        "field_6": {
+          "type": "string",
+          "rcsb_search_context": [
+            "exact-match",
+            "full-text"
+          ]
+        }
+      }
+    },
+    "field_8": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "rcsb_search_context": [
+          "exact-match"
+        ]
+      }
+    },
+    "field_9": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "field_1": {
+            "type": "integer",
+            "rcsb_search_context": [
+              "default-match"
+            ]
+          },
+          "field_2": {
+            "type": "number",
+            "rcsb_search_context": [
+              "default-match"
+            ]
+          },
+          "field_3": {
+            "type": "string",
+            "format": "date-time",
+            "rcsb_search_context": [
+              "default-match"
+            ]
+          },
+          "field_4": {
+            "type": "string",
+            "rcsb_search_context": [
+              "full-text"
+            ]
+          },
+          "field_5": {
+            "type": "string",
+            "rcsb_search_context": [
+              "exact-match"
+            ]
+          },
+          "field_6": {
+            "type": "string",
+            "rcsb_search_context": [
+              "exact-match",
+              "full-text"
+            ]
+          }
+        }
+      }
+    },
+    "field_10": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "field_1": {
+            "type": "integer",
+            "rcsb_search_context": [
+              "default-match"
+            ]
+          },
+          "field_2": {
+            "type": "number",
+            "rcsb_search_context": [
+              "default-match"
+            ]
+          },
+          "field_3": {
+            "type": "string",
+            "format": "date-time",
+            "rcsb_search_context": [
+              "default-match"
+            ]
+          },
+          "field_4": {
+            "type": "string",
+            "rcsb_search_context": [
+              "full-text"
+            ]
+          },
+          "field_5": {
+            "type": "string",
+            "rcsb_search_context": [
+              "exact-match"
+            ]
+          },
+          "field_6": {
+            "type": "string",
+            "rcsb_search_context": [
+              "exact-match",
+              "full-text"
+            ]
+          }
+        }
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "rcsb_nested_indexing": true
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "type": "object",
+  "required": [
+    "update_object_node"
+  ],
+  "properties": {
+    "update_object_node": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string"
+        }
+      },
+      "description": "ordinary node of object type"
+    },
+    "common_object_node": {
+      "type": "object",
+      "properties": {
+        "update_field": {
+          "type": "string"
+        }
+      }
+    },
+    "common_array_node": {
+      "type" : "array",
+      "items" : {
+        "type": "object",
+        "properties": {
+          "update_element": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "conflict_node": {
+      "type": "integer"
+    },
+    "enum_node_common": {
+      "type": "string",
+      "enum": [
+        "C"
+      ]
+    }
+  }
+}

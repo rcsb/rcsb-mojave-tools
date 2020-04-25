@@ -1,0 +1,56 @@
+{
+  "type": "object",
+  "definitions": {
+    "schema_array" : {
+      "type" : "array",
+      "minItems" : 1,
+      "items" : {
+        "$ref" : "#"
+      }
+    },
+    "simple_node_schema": {
+      "type":"sting"
+    },
+    "complex_type_one": {
+      "type":"integer"
+    },
+    "complex_type_two": {
+      "type":"object",
+      "properties": {
+        "simple_field": {
+          "type":"string",
+          "format":"date"
+        }
+      }
+    }
+  },
+  "properties": {
+    "items" : {
+      "anyOf" : [
+        {
+          "$ref" : "#"
+        },
+        {
+          "$ref" : "#/definitions/schema_array"
+        }
+      ],
+      "default" : true
+    },
+    "simple_node": {
+      "$ref":"#/definitions/simple_node_schema"
+    },
+    "complex_node": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/complex_type_one"
+        },
+        {
+          "$ref": "#/definitions/complex_type_two"
+        }
+      ]
+    },
+    "duplicated_node": {
+      "$ref": "#/definitions/complex_type_two"
+    }
+  }
+}

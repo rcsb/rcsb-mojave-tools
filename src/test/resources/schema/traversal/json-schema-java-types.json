@@ -1,0 +1,62 @@
+{
+  "type": "object",
+  "properties": {
+    "simple_attribute": {
+      "type": "string"
+    },
+    "object_node": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "array_node": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "array_simple_attribute": {
+            "type": "string"
+          },
+          "array_object": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "special_node": {
+      "type": "object",
+      "properties": {
+        "rcsb_provenance": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "enum": [
+                "annotation",
+                "calculation"
+              ]
+            },
+            "source": {
+              "type": "string",
+              "enum": [
+                "value_1",
+                "value_2"
+              ]
+            },
+            "origin": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "type": "object",
+  "properties": {
+    "field1": {
+      "type": "object",
+      "properties": {
+        "field2": {
+          "type": "string"
+        },
+        "field3": {
+          "type": "string"
+        }
+      }
+    },
+    "field4": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "field5": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

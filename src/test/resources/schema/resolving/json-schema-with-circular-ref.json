@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "definitions": {
+    "fragment": {
+      "$ref": "#/definitions/fragment"
+    }
+  },
+  "properties": {
+    "field": {
+      "$ref": "#/definitions/fragment"
+    }
+  }
+}

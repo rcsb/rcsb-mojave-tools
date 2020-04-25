@@ -1,0 +1,56 @@
+{
+  "type": "object",
+  "required": [
+    "target_object_node"
+  ],
+  "properties": {
+    "target_object_node": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string"
+        }
+      },
+      "description": "ordinary node of object type"
+    },
+    "array_node": {
+      "type" : "array",
+      "items" : {
+        "type": "object",
+        "properties": {
+          "element": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "common_object_node": {
+      "type": "object",
+      "properties": {
+        "target_field": {
+          "type": "string"
+        }
+      }
+    },
+    "common_array_node": {
+      "type" : "array",
+      "items" : {
+        "type": "object",
+        "properties": {
+          "target_element": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "conflict_node": {
+      "type": "string"
+    },
+    "enum_node_common": {
+      "type": "string",
+      "enum": [
+        "A", "B"
+      ]
+    }
+  }
+}

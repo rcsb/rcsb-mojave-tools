@@ -1,0 +1,30 @@
+{
+  "type": "object",
+  "required": [
+    "objectNodeCamelCase"
+  ],
+  "properties": {
+    "objectNodeCamelCase": {
+      "type": "object",
+      "properties": {
+        "simple": {
+          "type": "string"
+        },
+        "complexName": {
+          "type": "string"
+        }
+      }
+    },
+    "arrayNodeCamelCase": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "elementName": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

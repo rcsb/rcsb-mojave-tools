@@ -1,0 +1,12 @@
+{
+  "$id": "/schema/reference/json-schema-no-definitions-bad.json",
+  "type": "object",
+  "properties": {
+    "field_1": {
+      "$ref":"#/definitions/field_1_fragment"
+    },
+    "field_2": {
+      "$ref":"#/definitions/field_2_fragment"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "type": "object",
+  "title": "First Child",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "type A",
+        "type B"
+      ]
+    },
+    "children": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "json-schema-child-2.json"
+          },
+          {
+            "$ref": "#"
+          }
+        ]
+      },
+      "minItems": 1
+    }
+  }
+}

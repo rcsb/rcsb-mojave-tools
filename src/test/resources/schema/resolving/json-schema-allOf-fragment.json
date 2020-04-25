@@ -1,0 +1,12 @@
+{
+  "definitions": {
+    "number_field": {
+      "type": "object",
+      "properties": {
+        "number_field": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
