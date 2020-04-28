@@ -3,7 +3,7 @@ package org.rcsb.mojave.tools.jsonschema.utils;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.rcsb.mojave.tools.jsonschema.SchemaLoader;
 import org.rcsb.mojave.tools.jsonschema.constants.MetaSchemaProperty;
-import org.rcsb.mojave.common.jsonschema.MetaSchemaType;
+import org.rcsb.mojave.tools.jsonschema.constants.MetaSchemaType;
 import org.rcsb.mojave.tools.jsonschema.traversal.model.JsonReference;
 
 import java.io.IOException;

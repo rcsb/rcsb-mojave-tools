@@ -35,14 +35,13 @@ public class GenerateAutoJsonSchema {
             throw new IllegalArgumentException("Input arguments are not specified.");
         if (!cmd.hasOption("-o"))
             throw new IllegalArgumentException("Output argument is not specified.");
+        if (!cmd.hasOption("-t"))
+            throw new IllegalArgumentException("Target Package (-t) argument is not specified.");
 
         String coreSchemasLocation = cmd.valueOf("-i").get(0);
         String autoSchemasLocation = cmd.valueOf("-o").get(0);
+        String targetPackage = cmd.valueOf("-t").get(0);
         CommonUtils.ensurePathToFolderExist(new File(autoSchemasLocation));
-
-        // namespace to construct fully qualified name to Java classes
-        Properties p = CommonUtils.getProjectProperties(AppUtils.PROPERTIES_RESOURCE_NAME);
-        String targetPackage = p.getProperty("project.auto.package");
 
         EnumTransformer javaEnumVisitor = new EnumTransformer();
         JavaTypeAnnotator javaTypeNameVisitor = new JavaTypeAnnotator();

@@ -33,7 +33,7 @@ hs_err_pid*
 .settings
 .classpath
 
-# file with list of project properties generated at build time
-/*/src/main/resources/*.properties
-
 icon.png
+
+# file with list of project properties generated at build time
+src/main/resources/*.properties

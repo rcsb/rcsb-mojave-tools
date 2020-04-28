@@ -6,7 +6,7 @@ import com.sun.codemodel.*;
 import org.rcsb.mojave.tools.jsonschema.SchemaLoader;
 import org.rcsb.mojave.tools.jsonschema.constants.MetaSchemaModifier;
 import org.rcsb.mojave.tools.jsonschema.constants.MetaSchemaProperty;
-import org.rcsb.mojave.common.jsonschema.MetaSchemaType;
+import org.rcsb.mojave.tools.jsonschema.constants.MetaSchemaType;
 import org.rcsb.mojave.tools.jsonschema.traversal.JsonSchemaWalker;
 import org.rcsb.mojave.tools.jsonschema.traversal.visitors.EnumCollector;
 import org.rcsb.mojave.tools.jsonschema.traversal.visitors.JavaTypeAnnotator;
