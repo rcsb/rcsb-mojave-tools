@@ -25,10 +25,10 @@ from `targetSchema` (an overlapping element scope will be overwritten).
  [**jsonschema2pojo-maven-plugin:generate**](https://joelittlejohn.github.io/jsonschema2pojo/site/0.5.1/generate-mojo.html) 
 is invoked during the build process, this goal generates Java types and can annotate those types for data-binding and 
 validation. To add more _Mojave_ models:
-- (i) add new JSON schema file under `src/main/resources/schema` if this schema should be manually curated; 
+- (i) add new JSON schema file to [rcsb-json-schema](https://github.com/rcsb/rcsb-json-schema) repository; 
 or modify and existing JSON schema for available cores;
 - (ii) if a new schema should be stitched, add an argument to the configuration of an appropriate execution of 
-`org.rcsb.mojave.tools.core.GenerateJsonSchemaCores` in the project pom.xml that points to the location of a schema
+`org.rcsb.mojave.tools.core.GenerateJsonSchemaCores` in the project _pom.xml_ that points to the location of a schema
 to be added. 
 
 Based on this configuration Java sources will be automatically generated and placed into project build directory 
