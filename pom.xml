@@ -8,7 +8,7 @@
 
     <groupId>org.rcsb</groupId>
     <artifactId>rcsb-mojave-tools</artifactId>
-    <version>1.0.30-SNAPSHOT</version>
+    <version>1.0.3-SNAPSHOT</version>
 
     <properties>
 

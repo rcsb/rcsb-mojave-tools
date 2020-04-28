@@ -60,6 +60,11 @@ public class GenerateCombinedJsonSchema {
         if (finalSchema == null)
             throw new IllegalStateException("Final schema was not produced.");
 
+        if (cmd.hasOption("-s")) {
+            String id = cmd.valueOf("-s").get(0);
+            ((ObjectNode)finalSchema).put(MetaSchemaProperty.SCHEMA_ID, id);
+        }
+
         loader.writeSchema(coreSchemaLocation, finalSchema);
     }
 }
