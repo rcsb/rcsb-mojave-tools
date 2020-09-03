@@ -93,6 +93,8 @@
                                                                                                    <xs:element name="GBInterval" maxOccurs="unbounded">
                                                                                                          <xs:complexType>
                                                                                                                <xs:sequence>
+                                                                                                                     <xs:element name="GBInterval_iscomp" type="xs:boolean"></xs:element>
+                                                                                                                     <xs:element name="GBInterval_point" type="xs:int"></xs:element>
                                                                                                                      <xs:element name="GBInterval_from" type="xs:int"></xs:element>
                                                                                                                      <xs:element name="GBInterval_to" type="xs:int"></xs:element>
                                                                                                                      <xs:element name="GBInterval_accession" type="xs:string"></xs:element>
