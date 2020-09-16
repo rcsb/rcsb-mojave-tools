@@ -15,12 +15,3 @@ deploy-job:
     - branches
   tags:
     - Java8-Nexus3
-
-sonarqube-job:
-  stage: build
-  only:
-    - master
-  script:
-    - mvn --batch-mode --errors -U clean compile sonar:sonar -Dsonar.host.url=http://sonarqube.rcsb.org -Dsonar.login=811b2df8adf3152b8191a25fe816b7524f0a452b
-  tags:
-    - sonarqube
