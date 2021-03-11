@@ -8,23 +8,26 @@
     <xs:element name="eSummaryResult">
         <xs:complexType>
             <xs:sequence>
-                <xs:element maxOccurs="unbounded" name="DocSum">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="Id" type="xs:unsignedShort" />
-                            <xs:element maxOccurs="unbounded" name="Item">
-                                <xs:complexType>
-                                    <xs:simpleContent>
-                                        <xs:extension base="xs:string">
-                                            <xs:attribute name="Name" type="xs:string" use="required" />
-                                            <xs:attribute name="Type" type="xs:string" use="required" />
-                                        </xs:extension>
-                                    </xs:simpleContent>
-                                </xs:complexType>
-                            </xs:element>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
+                <xs:choice maxOccurs="unbounded">
+                    <xs:element maxOccurs="unbounded" name="DocSum">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="Id" type="xs:unsignedShort" />
+                                <xs:element maxOccurs="unbounded" name="Item">
+                                    <xs:complexType>
+                                        <xs:simpleContent>
+                                            <xs:extension base="xs:string">
+                                                <xs:attribute name="Name" type="xs:string" use="required" />
+                                                <xs:attribute name="Type" type="xs:string" use="required" />
+                                            </xs:extension>
+                                        </xs:simpleContent>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="ERROR" type="xs:string" />
+                </xs:choice>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
