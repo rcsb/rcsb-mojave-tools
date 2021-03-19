@@ -1,6 +1,7 @@
 package org.rcsb.mojave.tools.jsonschema.traversal.visitors;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.rcsb.mojave.tools.jsonschema.constants.MetaSchemaType;
 import org.rcsb.mojave.tools.jsonschema.constants.*;
@@ -38,19 +39,9 @@ public class BsonTypeAliasConverter implements Visitor {
         bsonAliases.put(MetaSchemaType.NULL,    "null");
     }
 
-    @Override
-    public void visit(Visitable visitableNode) {
-
-        // An extension property 'bsonType' that applies to schema and allows specifying a type
-        // for document validation in MongoDB.
-
-        if (!(visitableNode instanceof VisitableNode))
-            throw new IllegalArgumentException("Node object MUST be an instance of VisitableNode.");
-
-        JsonNode node = ((VisitableNode) visitableNode).getNode();
-        TraversalContext ctx = ((VisitableNode) visitableNode).getTraversalContext();
-
-        if (!ctx.isRef() && !ctx.getLabel().equals(TraversalLabel.PROPERTIES)) {
+    private void visitNode(TraversalContext ctx, JsonNode node) {
+        if (!ctx.isRef() && !ctx.getLabel().equals(TraversalLabel.PROPERTIES)
+                && node.has(MetaSchemaProperty.TYPE)) {
 
             String jsonType = node.get(MetaSchemaProperty.TYPE).textValue();
             if (!bsonAliases.containsKey(jsonType))
@@ -67,6 +58,24 @@ public class BsonTypeAliasConverter implements Visitor {
             // MongoDB '$jsonSchema' support one of the keywords a time (either 'type' or 'bsonType')
             // therefore removing 'type' node.
             updatedNode.remove(MetaSchemaProperty.TYPE);
+        }
+    }
+
+    @Override
+    public void visit(Visitable visitableNode) {
+
+        // An extension property 'bsonType' that applies to schema and allows specifying a type
+        // for document validation in MongoDB.
+
+        if (!(visitableNode instanceof VisitableNode))
+            throw new IllegalArgumentException("Node object MUST be an instance of VisitableNode.");
+
+        TraversalContext ctx = ((VisitableNode) visitableNode).getTraversalContext();
+        if (((VisitableNode) visitableNode).getNode() instanceof ArrayNode) {
+            ((VisitableNode) visitableNode).getNode().iterator().forEachRemaining(n -> visitNode(ctx, n));
+        } else {
+            JsonNode node = ((VisitableNode) visitableNode).getNode();
+            visitNode(ctx, node);
         }
     }
 }

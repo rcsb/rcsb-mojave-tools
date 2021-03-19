@@ -38,6 +38,22 @@
           }
         }
       }
+    },
+    "field5": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "integer"
+          },
+          {
+            "type": "number"
+          }
+        ]
+      }
     }
   }
 }

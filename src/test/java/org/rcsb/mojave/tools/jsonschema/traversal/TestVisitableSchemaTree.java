@@ -83,6 +83,9 @@ public class TestVisitableSchemaTree {
         assertTrue(schema.get("properties").get("field3").has("bsonType"));
         assertTrue(schema.get("properties").get("field3").get("items").has("bsonType"));
         assertFalse(schema.get("properties").get("field3").get("items").has("unwanted_meta"));
+
+        assertTrue(schema.get("properties").get("field5").has("bsonType"));
+        assertTrue(schema.get("properties").get("field5").get("items").has("anyOf"));
     }
 
     @Test
