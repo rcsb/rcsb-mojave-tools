@@ -39,7 +39,17 @@ public class BsonTypeAliasConverter implements Visitor {
         bsonAliases.put(MetaSchemaType.NULL,    "null");
     }
 
-    private void visitNode(TraversalContext ctx, JsonNode node) {
+    @Override
+    public void visit(Visitable visitableNode) {
+
+        // An extension property 'bsonType' that applies to schema and allows specifying a type
+        // for document validation in MongoDB.
+
+        if (!(visitableNode instanceof VisitableNode))
+            throw new IllegalArgumentException("Node object MUST be an instance of VisitableNode.");
+
+        TraversalContext ctx = ((VisitableNode) visitableNode).getTraversalContext();
+        JsonNode node = ((VisitableNode) visitableNode).getNode();
         if (!ctx.isRef() && !ctx.getLabel().equals(TraversalLabel.PROPERTIES)
                 && node.has(MetaSchemaProperty.TYPE)) {
 
@@ -58,24 +68,6 @@ public class BsonTypeAliasConverter implements Visitor {
             // MongoDB '$jsonSchema' support one of the keywords a time (either 'type' or 'bsonType')
             // therefore removing 'type' node.
             updatedNode.remove(MetaSchemaProperty.TYPE);
-        }
-    }
-
-    @Override
-    public void visit(Visitable visitableNode) {
-
-        // An extension property 'bsonType' that applies to schema and allows specifying a type
-        // for document validation in MongoDB.
-
-        if (!(visitableNode instanceof VisitableNode))
-            throw new IllegalArgumentException("Node object MUST be an instance of VisitableNode.");
-
-        TraversalContext ctx = ((VisitableNode) visitableNode).getTraversalContext();
-        if (((VisitableNode) visitableNode).getNode() instanceof ArrayNode) {
-            ((VisitableNode) visitableNode).getNode().iterator().forEachRemaining(n -> visitNode(ctx, n));
-        } else {
-            JsonNode node = ((VisitableNode) visitableNode).getNode();
-            visitNode(ctx, node);
         }
     }
 }
