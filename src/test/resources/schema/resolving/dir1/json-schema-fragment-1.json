@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "$id": "/schema/resolving/dir1/json-schema-fragment-1.json",
+  "properties": {
+    "field1": {
+      "$ref": "../dir2/json-schema-fragment-2.json#/definitions/fragment"
+    },
+    "field2": {
+      "$ref": "../dir2/json-schema-fragment-3.json#/definitions/fragment"
+    }
+  }
+}

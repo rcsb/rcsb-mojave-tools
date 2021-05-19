@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.rcsb.mojave.tools.jsonschema.SchemaLoader;
 import org.rcsb.mojave.tools.jsonschema.SchemaRefResolver;
 import org.rcsb.mojave.tools.jsonschema.constants.MetaSchemaProperty;
+import org.rcsb.mojave.tools.jsonschema.constants.MetaSchemaType;
 
 import java.io.IOException;
 import java.net.URL;
@@ -97,5 +98,20 @@ public class TestSchemaRefResolver {
                 .get(MetaSchemaProperty.PROPERTIES).has("integer_field"));
         assertTrue(schema.get(MetaSchemaProperty.PROPERTIES)
                 .get("field").get(MetaSchemaProperty.PROPERTIES).has("number_field"));
+    }
+
+    @Test
+    public void shouldChaseReferences() throws IOException {
+        URL source = TestSchemaRefResolver.class
+                .getResource("/schema/resolving/json-schema-chase-refs.json");
+        JsonNode schema = loader.readSchema(source);
+
+        SchemaRefResolver resolver = new SchemaRefResolver(schema, loader);
+        resolver.resolveInline();
+
+        assertEquals(MetaSchemaType.STRING, schema.get(MetaSchemaProperty.PROPERTIES)
+                .get("field1").get(MetaSchemaProperty.TYPE).asText());
+        assertEquals(MetaSchemaType.STRING, schema.get(MetaSchemaProperty.PROPERTIES)
+                .get("field2").get(MetaSchemaProperty.TYPE).asText());
     }
 }

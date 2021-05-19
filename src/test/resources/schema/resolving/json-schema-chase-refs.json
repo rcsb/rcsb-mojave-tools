@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "$id": "/schema/resolving/json-schema-chase-refs.json",
+  "properties": {
+    "field1": {
+      "$ref": "./dir1/json-schema-fragment-1.json#/properties/field1"
+    },
+    "field2": {
+      "$ref": "./dir1/json-schema-fragment-1.json#/properties/field2"
+    }
+  }
+}
