@@ -161,7 +161,7 @@ public class JsonSchemaWalker {
         if (ref == null || refs.containsKey(ref))
             return null;
 
-        JsonNode resolvedNode = resolver.resolve(ref);
+        JsonNode resolvedNode = resolver.resolve(ref, ctx.getSchema()).getRight();
         refs.put(ref, resolvedNode);
 
         return resolvedNode;

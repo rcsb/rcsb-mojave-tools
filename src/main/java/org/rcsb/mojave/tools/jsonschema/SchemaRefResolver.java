@@ -61,12 +61,12 @@ public class SchemaRefResolver {
         loader = schemaLoader;
     }
 
-    private void resolve(JsonNode node) throws IOException {
+    private TraversalContext resolve(JsonNode node, TraversalContext ctx) throws IOException {
 
-        String baseURI = JsonSchemaNodeUtils.getBaseURI(currentTree);
+        String baseURI = JsonSchemaNodeUtils.getBaseURI(ctx.getSchema());
         JsonReference ref = JsonSchemaNodeUtils.getRef(baseURI, node);
         if (ref == null)
-            return;
+            return ctx;
 
         // Check for cyclic dependencies to prevent such structures from resulting in infinite
         // recursion or iteration. If we have seen this ref already, this is a ref loop.
@@ -75,13 +75,18 @@ public class SchemaRefResolver {
                     +"] has been seen already.");
 
         // Resolution of a JSON Reference object yields the referenced JSON value.
-        JsonNode resolved = resolve(ref);
+        Pair<JsonNode, JsonNode> resolved = resolve(ref, ctx.getSchema());
+        JsonNode resolvedFragment = resolved.getRight();
+
+        TraversalContext ctxCopy = ctx.deepCopy();
+        ctxCopy.setSchema(resolved.getLeft());
 
         // Any members other than "$ref" in a JSON Reference object SHALL be ignored.
         ((ObjectNode) node).removeAll();
-
         // Implementations chooses to replace the reference with he referenced value.
-        ((ObjectNode) node).setAll((ObjectNode) resolved);
+        ((ObjectNode) node).setAll((ObjectNode) resolvedFragment);
+
+        return ctxCopy;
     }
 
     private void combineAllOf(JsonNode node) {
@@ -119,17 +124,17 @@ public class SchemaRefResolver {
      * @param ref JSON Reference.
      * @return schema fragment as a result of resolution of $ref.
      */
-    public JsonNode resolve(JsonReference ref) {
+    public Pair<JsonNode, JsonNode> resolve(JsonReference ref, JsonNode current) {
 
         // Check whether $ref must be resolved within the current tree
         if ( ref.getLocator() == null )
-            return resolveFragment(ref, currentTree);
+            return Pair.of(current, resolveFragment(ref, current));
 
         // If not, fetch a new tree
         else {
             try {
                 JsonNode schema = loader.readSchema(ref.getURI());
-                return resolveFragment(ref, schema);
+                return Pair.of(schema, resolveFragment(ref, schema));
             } catch (IOException ioe) {
                 throw new IllegalArgumentException("Failed to resolve "+ref.getFragment()+" at "+
                         ref.getLocator()+". Error: " + ioe.getMessage());
@@ -156,14 +161,13 @@ public class SchemaRefResolver {
     public void resolveInline() throws IOException {
         JsonSchemaTraversal traversal = new JsonSchemaTraversal();
         traversal.setTraversalStrategy(JsonSchemaTraversal.Strategy.POST_ORDER);
-
         traversal.traverse(currentTree);
         while (traversal.hasNext()) {
             Pair<JsonNode, TraversalContext> item = traversal.next();
             JsonNode n = item.getLeft();
             if (JsonSchemaNodeUtils.isRef(n)) {
-                resolve(n);
-                traversal.traverse(n, item.getRight());
+                TraversalContext ctx = resolve(n, item.getRight());
+                traversal.traverse(n, ctx);
             } else if (n.has(MetaSchemaProperty.ALL_OF)) {
                 combineAllOf(n);
             } else {
@@ -172,4 +176,5 @@ public class SchemaRefResolver {
             }
         }
     }
+
 }
