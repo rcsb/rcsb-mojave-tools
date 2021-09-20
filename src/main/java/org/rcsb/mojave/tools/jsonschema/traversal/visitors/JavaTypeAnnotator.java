@@ -76,14 +76,15 @@ public class JavaTypeAnnotator implements Visitor {
             throw new IllegalArgumentException("Node object MUST be an instance of VisitableNode.");
 
         JsonNode node = ((VisitableNode) visitableNode).getNode();
+        // Do not override existing (manually added) javaType annotations
+        if (node.has(MetaSchemaModifier.JAVA_TYPE)) return;
+
         TraversalContext ctx = ((VisitableNode) visitableNode).getTraversalContext();
+        if (ctx.isRef() || (ctx.getLineage().size() == 0)) return;
 
         // coerce date format
         if (JsonSchemaNodeUtils.isDate(node))
             node = ((ObjectNode) node).put(MetaSchemaProperty.FORMAT, MetaSchemaType.DATE_TIME);
-
-        if (ctx.isRef() || (ctx.getLineage().size() == 0) || node.has(MetaSchemaModifier.JAVA_TYPE))
-            return;
 
         // If this is object or enum apply naming strategy where current name
         // and parent name are concatenated.
