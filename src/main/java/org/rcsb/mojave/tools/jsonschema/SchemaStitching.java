@@ -3,7 +3,7 @@ package org.rcsb.mojave.tools.jsonschema;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.apache.commons.collections15.IteratorUtils;
+import com.google.common.collect.Lists;
 
 import java.util.Iterator;
 import java.util.List;
@@ -49,7 +49,7 @@ public class SchemaStitching {
 
             } else if (targetValue.isArray() && updateValue.isArray()) {
 
-                List<JsonNode> existing = IteratorUtils.toList(targetValue.elements());
+                List<JsonNode> existing = Lists.newArrayList(targetValue.elements());
                 ArrayNode updateArr = (ArrayNode) updateValue;
                 for (int i = 0; i < updateArr.size(); i++) {
                     JsonNode node = updateArr.get(i);

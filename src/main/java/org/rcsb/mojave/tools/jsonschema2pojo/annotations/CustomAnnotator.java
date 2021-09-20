@@ -299,7 +299,7 @@ public class CustomAnnotator extends AbstractAnnotator {
     }
 
     @Override
-    public void propertyGetter(JMethod getter, String propertyName) {
+    public void propertyGetter(JMethod getter, JDefinedClass clazz, String propertyName) {
         updateMethodWithDescription(getter, propertyName);
         updateMethodWithExamples(getter, propertyName);
         updateMethodWithAllowableValues(getter, propertyName);

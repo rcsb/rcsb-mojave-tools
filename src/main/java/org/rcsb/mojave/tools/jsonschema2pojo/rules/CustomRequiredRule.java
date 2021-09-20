@@ -39,7 +39,7 @@ public class CustomRequiredRule implements Rule<JDocCommentable, JDocCommentable
     }
 
     @Override
-    public JDocCommentable apply(String s, JsonNode node, JDocCommentable genType, Schema schema) {
+    public JDocCommentable apply(String s, JsonNode node, JsonNode parent, JDocCommentable genType, Schema schema) {
 
         JCodeModel cm = new JCodeModel();
 

@@ -33,7 +33,7 @@ public class CustomRequiredArrayRule implements Rule<JDefinedClass, JDefinedClas
     }
 
     @Override
-    public JDefinedClass apply(String nodeName, JsonNode node, JDefinedClass jclass, Schema schema) {
+    public JDefinedClass apply(String nodeName, JsonNode node, JsonNode parent, JDefinedClass jclass, Schema schema) {
 
         List<String> requiredFieldMethods = new ArrayList<>();
 

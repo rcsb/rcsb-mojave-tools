@@ -31,7 +31,7 @@
         <jackson.version>2.10.0</jackson.version>
         <swagger.version>2.0.5</swagger.version>
 
-        <jsonschema2pojo.version>0.5.1</jsonschema2pojo.version>
+        <jsonschema2pojo.version>1.1.1</jsonschema2pojo.version>
         <pojo2jsonschema.version>1.14</pojo2jsonschema.version>
         <bean.validation.api.version>2.0.1.Final</bean.validation.api.version>
 
