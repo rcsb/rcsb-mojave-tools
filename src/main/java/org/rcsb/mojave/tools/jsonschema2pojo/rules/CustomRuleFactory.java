@@ -1,7 +1,9 @@
 package org.rcsb.mojave.tools.jsonschema2pojo.rules;
 
+import com.sun.codemodel.JClassContainer;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JDocCommentable;
+import com.sun.codemodel.JType;
 import org.jsonschema2pojo.Annotator;
 import org.jsonschema2pojo.GenerationConfig;
 import org.jsonschema2pojo.SchemaStore;
@@ -48,5 +50,10 @@ public class CustomRuleFactory extends RuleFactory {
     @Override
     public Rule<JDefinedClass, JDefinedClass> getRequiredArrayRule() {
         return new CustomRequiredArrayRule(this);
+    }
+
+    @Override
+    public Rule<JClassContainer, JType> getEnumRule() {
+        return new CustomEnumRule(this);
     }
 }
