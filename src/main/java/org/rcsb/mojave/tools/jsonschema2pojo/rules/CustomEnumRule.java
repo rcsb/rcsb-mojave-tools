@@ -11,10 +11,12 @@ import org.jsonschema2pojo.exception.GenerationException;
 import org.jsonschema2pojo.model.EnumDefinition;
 import org.jsonschema2pojo.model.EnumDefinitionExtensionType;
 import org.jsonschema2pojo.model.EnumValueDefinition;
+import org.jsonschema2pojo.rules.DefaultRule;
 import org.jsonschema2pojo.rules.EnumRule;
 import org.jsonschema2pojo.rules.Rule;
 import org.jsonschema2pojo.rules.RuleFactory;
 import org.jsonschema2pojo.util.AnnotationHelper;
+import org.rcsb.mojave.tools.utils.AppUtils;
 
 import java.util.*;
 
@@ -35,7 +37,7 @@ public class CustomEnumRule implements Rule<JClassContainer, JType> {
 
     private final RuleFactory ruleFactory;
 
-    protected CustomEnumRule(RuleFactory ruleFactory) {
+    CustomEnumRule(RuleFactory ruleFactory) {
         this.ruleFactory = ruleFactory;
     }
 
@@ -144,7 +146,15 @@ public class CustomEnumRule implements Rule<JClassContainer, JType> {
 
             JEnumConstant constant = _enum.enumConstant(enumValueDefinition.getName());
             String value = enumValueDefinition.getValue();
-            constant.arg(DefaultRule.getDefaultValue(type, value));
+
+            Class<DefaultRule> clazz = DefaultRule.class;
+            String methodName = "getDefaultValue";
+            Class<?>[] params = new Class<?>[]{JType.class, String.class};
+            Object[] args = new Object[]{type, value};
+            Object results = AppUtils.invoke(null, clazz, methodName, params, args);
+            if (!(results instanceof JExpression))
+                throw new IllegalArgumentException("Failed to get correct results from DefaultRule.getDefaultValue(...)");
+            constant.arg((JExpression)results);
 
             Annotator annotator = ruleFactory.getAnnotator();
             annotator.enumConstant(_enum, constant, value);
@@ -211,14 +221,11 @@ public class CustomEnumRule implements Rule<JClassContainer, JType> {
 
         EnumDefinition enumDefinition;
 
-        if (!javaEnums.isMissingNode())
-        {
+        if (!javaEnums.isMissingNode()) {
             enumDefinition = buildEnumDefinitionWithJavaEnumsExtension(nodeName, node, enums, javaEnums, backingType);
-        } else if (!javaEnumNames.isMissingNode())
-        {
+        } else if (!javaEnumNames.isMissingNode()) {
             enumDefinition = buildEnumDefinitionWithJavaEnumNamesExtension(nodeName, node, enums, javaEnumNames, backingType);
-        } else
-        {
+        } else {
             enumDefinition = buildEnumDefinitionWithNoExtensions(nodeName, node, enums, backingType);
         }
 
@@ -232,7 +239,6 @@ public class CustomEnumRule implements Rule<JClassContainer, JType> {
 
         for (int i = 0; i < enums.size(); i++) {
             JsonNode value = enums.path(i);
-
             if (!value.isNull()) {
                 String constantName = getConstantName(value.asText(), null);
                 constantName = makeUnique(constantName, existingConstantNames);
@@ -241,7 +247,6 @@ public class CustomEnumRule implements Rule<JClassContainer, JType> {
                 enumValues.add(new EnumValueDefinition(constantName, value.asText()));
             }
         }
-
         return new EnumDefinition(nodeName, parentNode, backingType, enumValues, EnumDefinitionExtensionType.NONE);
     }
 
@@ -253,7 +258,6 @@ public class CustomEnumRule implements Rule<JClassContainer, JType> {
 
         for (int i = 0; i < enums.size(); i++) {
             JsonNode value = enums.path(i);
-
             if (!value.isNull()) {
                 String constantName = getConstantName(value.asText(), javaEnumNames.path(i).asText());
                 constantName = makeUnique(constantName, existingConstantNames);
@@ -262,7 +266,6 @@ public class CustomEnumRule implements Rule<JClassContainer, JType> {
                 enumValues.add(new EnumValueDefinition(constantName, value.asText(), javaEnumNames));
             }
         }
-
         return new EnumDefinition(nodeName, parentNode, backingType, enumValues, EnumDefinitionExtensionType.JAVA_ENUM_NAMES);
     }
 
@@ -273,10 +276,8 @@ public class CustomEnumRule implements Rule<JClassContainer, JType> {
 
         for (int i = 0; i < enums.size(); i++) {
             JsonNode value = enums.path(i);
-
             if (!value.isNull()) {
                 JsonNode javaEnumNode = javaEnums.path(i);
-
                 if(javaEnumNode.isMissingNode()) {
                     ruleFactory.getLogger().error("javaEnum entry for " + value.asText() + " was not found.");
                 }
@@ -291,12 +292,10 @@ public class CustomEnumRule implements Rule<JClassContainer, JType> {
                 enumValues.add(new EnumValueDefinition(constantName, value.asText(), javaEnumNode, titleNode, descriptionNode));
             }
         }
-
         return new EnumDefinition(nodeName, enumNode, type, enumValues, EnumDefinitionExtensionType.JAVA_ENUMS);
     }
 
     private JDefinedClass createEnum(JsonNode node, String nodeName, JClassContainer container) throws ClassAlreadyExistsException {
-
         try {
             if (node.has("javaType")) {
                 String fqn = node.get("javaType").asText();
