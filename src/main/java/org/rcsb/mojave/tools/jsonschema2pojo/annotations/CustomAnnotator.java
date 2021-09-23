@@ -18,7 +18,7 @@ import java.util.*;
  * <p>
  * Custom annotations are:
  * <p>
- * 1. Jackson {@link JsonPropertyDescription} annotation defines a human readable description
+ * 1. Jackson {@link JsonPropertyDescription} annotation defines a human-readable description
  *      for a logical property. When examples or enums metadata is available in JSON schema,
  *      the metadata is added to description as text.
  * <p>
@@ -72,12 +72,15 @@ public class CustomAnnotator extends AbstractAnnotator {
     }
 
     private boolean updateSwaggerAnnotationWithExamples(Collection<JAnnotationUse> annotations, String propertyName) {
+        return doUpdateAnnotation(annotations, propertyName, EXAMPLE_PARAM, examples);
+    }
 
+    private boolean doUpdateAnnotation(Collection<JAnnotationUse> annotations, String propertyName, String paramName, Map<String, String> params) {
         Optional<JAnnotationUse> annotation = annotations.stream()
                 .filter(a -> a.getAnnotationClass().name().equals(Schema.class.getSimpleName()))
                 .findFirst();
         if (annotation.isPresent()) {
-            annotation.get().param(EXAMPLE_PARAM, examples.get(propertyName));
+            annotation.get().param(paramName, params.get(propertyName));
             return true;
         }
         return false;
@@ -101,7 +104,7 @@ public class CustomAnnotator extends AbstractAnnotator {
 
         StringJoiner joiner = new StringJoiner(", ");
         allowableValues.iterator().forEachRemaining(joiner::add);
-        String descriptionText = joiner.toString() + "\n";
+        String descriptionText = joiner + "\n";
 
         if (description.containsKey(propertyName))
             descriptionText = description.get(propertyName) + "\n\nAllowable values:\n" + descriptionText;
@@ -121,15 +124,7 @@ public class CustomAnnotator extends AbstractAnnotator {
     }
 
     private boolean updateSwaggerAnnotationWithDescription(Collection<JAnnotationUse> annotations, String propertyName) {
-
-        Optional<JAnnotationUse> annotation = annotations.stream()
-                .filter(a -> a.getAnnotationClass().name().equals(Schema.class.getSimpleName()))
-                .findFirst();
-        if (annotation.isPresent()) {
-            annotation.get().param(DESCRIPTION_PARAM, description.get(propertyName));
-            return true;
-        }
-        return false;
+        return doUpdateAnnotation(annotations, propertyName, DESCRIPTION_PARAM, description);
     }
 
     private void updateMethodWithExamples(JMethod method, String propertyName) {
@@ -171,7 +166,7 @@ public class CustomAnnotator extends AbstractAnnotator {
 
             StringJoiner joiner = new StringJoiner(", ");
             enumValues.get(propertyName).iterator().forEachRemaining(joiner::add);
-            String descriptionText = "\n\nAllowable values:\n" + joiner.toString() + "\n";
+            String descriptionText = "\n\nAllowable values:\n" + joiner + "\n";
 
             method.annotate(JsonPropertyDescription.class).param(VALUE_PARAM, descriptionText);
         }
@@ -212,7 +207,7 @@ public class CustomAnnotator extends AbstractAnnotator {
 
         StringJoiner joiner = new StringJoiner(", ");
         list.iterator().forEachRemaining(joiner::add);
-        String allowableValuesText = "Allowable values: " + joiner.toString() + ".";
+        String allowableValuesText = "Allowable values: " + joiner + ".";
 
         // add allowable values to javadoc as text
         field.javadoc().append("\n" + allowableValuesText);
@@ -250,7 +245,7 @@ public class CustomAnnotator extends AbstractAnnotator {
         StringJoiner joiner = new StringJoiner(", ");
         propertyNode.get(MetaSchemaProperty.EXAMPLES).iterator()
                 .forEachRemaining(e -> joiner.add(e.textValue()));
-        String examplesText = joiner.toString() + "\n";
+        String examplesText = joiner + "\n";
 
         // add examples to javadoc as text
         field.javadoc().append("\n\nExamples:\n" + examplesText);
