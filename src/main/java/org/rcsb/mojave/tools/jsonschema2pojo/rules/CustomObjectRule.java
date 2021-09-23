@@ -12,13 +12,10 @@ import org.jsonschema2pojo.util.AnnotationHelper;
 import org.jsonschema2pojo.util.ParcelableHelper;
 import org.jsonschema2pojo.util.ReflectionHelper;
 import org.jsonschema2pojo.util.SerializableHelper;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import org.rcsb.mojave.tools.utils.AppUtils;
 
 /**
  * Created on 9/21/21.
- * TODO: fix @since tag
  *
  * @author Yana Rose
  * @since 1.4.0
@@ -28,7 +25,7 @@ public class CustomObjectRule extends ObjectRule {
     private final RuleFactory ruleFactory;
     private final ReflectionHelper reflectionHelper;
 
-    public CustomObjectRule(RuleFactory ruleFactory, ParcelableHelper parcelableHelper, ReflectionHelper reflectionHelper) {
+    CustomObjectRule(RuleFactory ruleFactory, ParcelableHelper parcelableHelper, ReflectionHelper reflectionHelper) {
         super(ruleFactory, parcelableHelper, reflectionHelper);
         this.ruleFactory = ruleFactory;
         this.reflectionHelper = reflectionHelper;
@@ -79,7 +76,8 @@ public class CustomObjectRule extends ObjectRule {
         ruleFactory.getPropertiesRule().apply(nodeName, node.get("properties"), node, jclass, schema);
 
         if (node.has("javaInterfaces")) {
-            invoke("addInterfaces", new Class<?>[]{JDefinedClass.class,JsonNode.class}, new Object[]{jclass,node.get("javaInterfaces")});
+            AppUtils.invoke(this, getClass().getSuperclass(),"addInterfaces",
+                    new Class<?>[]{JDefinedClass.class,JsonNode.class}, new Object[]{jclass,node.get("javaInterfaces")});
         }
 
         ruleFactory.getAdditionalPropertiesRule().apply(nodeName, node.get("additionalProperties"), node, jclass, schema);
@@ -93,14 +91,18 @@ public class CustomObjectRule extends ObjectRule {
             AnnotationHelper.addGeneratedAnnotation(jclass);
         }
         if (ruleFactory.getGenerationConfig().isIncludeToString()) {
-            invoke("addToString", new Class<?>[]{JDefinedClass.class}, new Object[]{jclass});
+            AppUtils.invoke(this, getClass().getSuperclass(),"addToString",
+                    new Class<?>[]{JDefinedClass.class}, new Object[]{jclass});
         }
         if (ruleFactory.getGenerationConfig().isIncludeHashcodeAndEquals()) {
-            invoke("addHashCode", new Class<?>[]{JDefinedClass.class,JsonNode.class}, new Object[]{jclass,node});
-            invoke("addEquals", new Class<?>[]{JDefinedClass.class,JsonNode.class}, new Object[]{jclass,node});
+            AppUtils.invoke(this, getClass().getSuperclass(),"addHashCode",
+                    new Class<?>[]{JDefinedClass.class,JsonNode.class}, new Object[]{jclass,node});
+            AppUtils.invoke(this, getClass().getSuperclass(),"addEquals",
+                    new Class<?>[]{JDefinedClass.class,JsonNode.class}, new Object[]{jclass,node});
         }
         if (ruleFactory.getGenerationConfig().isParcelable()) {
-            invoke("addParcelSupport", new Class<?>[]{JDefinedClass.class}, new Object[]{jclass});
+            AppUtils.invoke(this, getClass().getSuperclass(),"addParcelSupport",
+                    new Class<?>[]{JDefinedClass.class}, new Object[]{jclass});
         }
         if (ruleFactory.getGenerationConfig().isIncludeConstructors()) {
             ruleFactory.getConstructorRule().apply(nodeName, node, parent, jclass, schema);
@@ -110,16 +112,6 @@ public class CustomObjectRule extends ObjectRule {
         }
 
         return jclass;
-    }
-
-    private void invoke(String methodName, Class<?>[] parameterTypes, Object[] args) {
-        try {
-            Method m = getClass().getSuperclass().getDeclaredMethod(methodName, parameterTypes);
-            m.setAccessible(true);
-            m.invoke(this, args);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            throw new GenerationException(e);
-        }
     }
 
     private JDefinedClass createClass(JsonNode node, JPackage _package) throws ClassAlreadyExistsException {
