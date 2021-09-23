@@ -57,6 +57,19 @@ You can implement custom annotator and custom rules factory. To use them with th
 add the necessary artifacts as a dependency of the plugin and set the `customAnnotator` and/or `customRuleFactory` to a 
 fully qualified class name, referring to a custom annotator and/or instances of custom rules class.
 
-Custom annotator and custom rules factory, implemented in `org.rcsb.mojave.tools.jsonschema2pojo` package, 
-are used to add `@NotNull` and `@JsonPropertyDescription` annotations attached to getters/setters in addition to default 
-annotation at the field level of generated Java types.
+Custom annotator, implemented in `org.rcsb.mojave.tools.jsonschema2pojo.annotations` package, is used to create and 
+customize Jackson and OpenAPI annotations and attach them to getters/setters in addition to default annotations at 
+the field level of generated Java types:
+- create Jackson `@JsonPropertyDescription` and populate OpenAPI `@Schema#description` annotations from JSON Schema 
+`description` property
+- update `@JsonPropertyDescription` annotation with JSON Schema `enum` listed as `Allowable values:`
+- populate `@Schema#allowableValues` annotation with JSON Schema `enum`
+- update `@JsonPropertyDescription` annotation with JSON Schema `examples` listed as `Examples:`
+- populate `@Schema#example` annotation with JSON Schema `examples`
+
+
+Custom rules factory, implemented in `org.rcsb.mojave.tools.jsonschema2pojo.rules` package, is used to customize Java 
+types generation rules in following ways:
+- transforms JSON Schema `required` property into [JSR-303](https://jcp.org/en/jsr/detail?id=303) `@NotNull` or/and 
+[JSR-305](https://jcp.org/en/jsr/detail?id=305) `@Nonnull` and `@Nullable` annotations and updates JavaDoc string
+- allows parametrizing Java classes with generic types via `javaType` property
