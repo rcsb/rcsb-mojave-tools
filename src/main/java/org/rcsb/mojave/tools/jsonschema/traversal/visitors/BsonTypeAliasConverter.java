@@ -1,10 +1,11 @@
 package org.rcsb.mojave.tools.jsonschema.traversal.visitors;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.rcsb.mojave.tools.jsonschema.constants.MetaSchemaModifier;
+import org.rcsb.mojave.tools.jsonschema.constants.MetaSchemaProperty;
 import org.rcsb.mojave.tools.jsonschema.constants.MetaSchemaType;
-import org.rcsb.mojave.tools.jsonschema.constants.*;
+import org.rcsb.mojave.tools.jsonschema.constants.TraversalLabel;
 import org.rcsb.mojave.tools.jsonschema.traversal.model.TraversalContext;
 import org.rcsb.mojave.tools.jsonschema.traversal.visitables.Visitable;
 import org.rcsb.mojave.tools.jsonschema.traversal.visitables.VisitableNode;

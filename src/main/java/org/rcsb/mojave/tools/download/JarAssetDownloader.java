@@ -1,18 +1,19 @@
 package org.rcsb.mojave.tools.download;
 
-import java.io.*;
+import com.fasterxml.jackson.databind.JsonNode;
+import org.apache.commons.io.IOUtils;
+import org.rcsb.mojave.tools.utils.ConfigurableMapper;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
-
-import java.net.URL;
-import java.net.MalformedURLException;
-
-import org.apache.commons.io.IOUtils;
-import com.fasterxml.jackson.databind.JsonNode;
-import org.rcsb.mojave.tools.utils.ConfigurableMapper;
 
 /**
  * Created on 4/30/20.

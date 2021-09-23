@@ -1,10 +1,10 @@
 package org.rcsb.mojave.tools.jsonschema.traversal.visitors;
 
-import com.google.common.base.CaseFormat;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.CaseFormat;
 import org.rcsb.mojave.tools.jsonschema.constants.MetaSchemaProperty;
 import org.rcsb.mojave.tools.jsonschema.constants.TraversalLabel;
 import org.rcsb.mojave.tools.jsonschema.traversal.model.TraversalContext;

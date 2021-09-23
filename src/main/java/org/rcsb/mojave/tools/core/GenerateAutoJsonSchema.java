@@ -6,14 +6,12 @@ import org.rcsb.mojave.tools.jsonschema.traversal.JsonSchemaWalker;
 import org.rcsb.mojave.tools.jsonschema.traversal.visitors.EnumTransformer;
 import org.rcsb.mojave.tools.jsonschema.traversal.visitors.JavaTypeAnnotator;
 import org.rcsb.mojave.tools.jsonschema.traversal.visitors.Visitor;
-import org.rcsb.mojave.tools.utils.AppUtils;
 import org.rcsb.mojave.tools.utils.CommandOptions;
 import org.rcsb.mojave.tools.utils.CommonUtils;
 
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Properties;
 
 import static java.util.Arrays.asList;
 

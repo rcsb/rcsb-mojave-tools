@@ -1,7 +1,6 @@
 package org.rcsb.mojave.tools.jsonschema.traversal;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.CaseFormat;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -10,7 +9,6 @@ import org.rcsb.mojave.tools.jsonschema.traversal.visitors.*;
 import org.rcsb.mojave.tools.jsonschema.utils.SchemaVersion;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.Set;

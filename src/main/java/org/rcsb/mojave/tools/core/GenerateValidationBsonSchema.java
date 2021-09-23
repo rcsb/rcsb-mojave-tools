@@ -18,8 +18,6 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
-import static java.util.Collections.singletonList;
-
 /**
  * This tool updates all core JSON schemas to BSON types and produce new schemas
  * that can be used for validation in MongoDB.
