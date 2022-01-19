@@ -33,7 +33,7 @@
         <swagger.version>2.0.5</swagger.version>
 
         <jsonschema2pojo.version>1.1.1</jsonschema2pojo.version>
-        <pojo2jsonschema.version>1.14</pojo2jsonschema.version>
+        <pojo2jsonschema.version>1.16</pojo2jsonschema.version>
         <bean.validation.api.version>2.0.1.Final</bean.validation.api.version>
 
         <!-- SOURCES OF SCHEMAS FOR EXTERNAL DATA -->
@@ -100,6 +100,12 @@
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.0.1-jre</version>
         </dependency>
 
         <!-- Since java 11 JRE, this is needed at runtime (not in JRE anymore) -->
