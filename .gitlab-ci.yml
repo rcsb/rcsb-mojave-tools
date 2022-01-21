@@ -14,4 +14,4 @@ deploy-job:
   only:
     - branches
   tags:
-    - Java8-Nexus3
+    - Java11

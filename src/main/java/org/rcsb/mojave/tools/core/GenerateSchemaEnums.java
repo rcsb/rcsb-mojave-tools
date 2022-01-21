@@ -20,7 +20,7 @@ import java.util.*;
 
 import static com.sun.codemodel.JExpr.lit;
 import static java.util.Arrays.asList;
-import static jdk.nashorn.internal.runtime.JSType.isString;
+import static org.openjdk.nashorn.internal.runtime.JSType.isString;
 import static org.apache.commons.lang3.StringUtils.*;
 
 /**

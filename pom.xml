@@ -23,16 +23,16 @@
 
         <!-- DEPENDENCY VERSIONS -->
 
-        <jdk.version>1.8</jdk.version>
-        <junit.version>4.12</junit.version>
-        <slf4j.version>1.7.25</slf4j.version>
-        <log4j.version>2.9.1</log4j.version>
+        <jdk.version>11</jdk.version>
+        <junit.version>4.13.2</junit.version>
+        <slf4j.version>1.7.33</slf4j.version>
+        <log4j.version>2.17.1</log4j.version>
 
         <jackson.version>2.10.0</jackson.version>
         <swagger.version>2.0.5</swagger.version>
 
         <jsonschema2pojo.version>1.1.1</jsonschema2pojo.version>
-        <pojo2jsonschema.version>1.14</pojo2jsonschema.version>
+        <pojo2jsonschema.version>1.16</pojo2jsonschema.version>
         <bean.validation.api.version>2.0.1.Final</bean.validation.api.version>
 
         <!-- SOURCES OF SCHEMAS FOR EXTERNAL DATA -->
@@ -96,9 +96,15 @@
 
         <!-- Used by jsonschema2pojo -->
         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.0.1-jre</version>
         </dependency>
 
         <!-- Since java 11 JRE, this is needed at runtime (not in JRE anymore) -->
@@ -106,6 +112,12 @@
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
             <version>2.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjdk.nashorn</groupId>
+            <artifactId>nashorn-core</artifactId>
+            <version>15.3</version>
         </dependency>
 
         <!-- Tool to generate DTO style Java classes from JSON schema -->
@@ -199,8 +211,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.7.0</version>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
