@@ -260,8 +260,8 @@ public class GenerateSchemaEnums {
 
     private void run(File schemasDir, File outputDir, String fqp) throws IOException, JClassAlreadyExistsException {
 
-        File[] files = schemasDir.listFiles();
-        if (files == null || files.length == 0)
+        Collection<File> files = CommonUtils.listSchemaFiles(schemasDir);
+        if (files.size() == 0)
             throw new IllegalStateException("There are no schemas to process in " + schemasDir.getAbsolutePath());
 
         JavaTypeAnnotator javaTypeNameVisitor = new JavaTypeAnnotator()

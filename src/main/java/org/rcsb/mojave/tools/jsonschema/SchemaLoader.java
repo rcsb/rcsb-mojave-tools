@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.rcsb.mojave.tools.core.GenerateCombinedJsonSchema;
+import org.rcsb.mojave.tools.utils.CommonUtils;
 
 import java.io.*;
 import java.net.URI;
@@ -51,7 +52,7 @@ public class SchemaLoader {
 
         Object json = this.objectMapper.readValue(node.toString(), Object.class);
         String schemaString = this.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
-
+        CommonUtils.ensurePathToFolderExist(new File(filePath).getParentFile());
         try (BufferedWriter writer = new BufferedWriter(
                 new OutputStreamWriter(new FileOutputStream(filePath), StandardCharsets.UTF_8))) {
             writer.write(schemaString);

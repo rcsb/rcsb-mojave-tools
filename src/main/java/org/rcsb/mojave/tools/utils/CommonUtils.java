@@ -2,11 +2,16 @@ package org.rcsb.mojave.tools.utils;
 
 import com.sun.codemodel.CodeWriter;
 import com.sun.codemodel.JCodeModel;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.DirectoryFileFilter;
+import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.jsonschema2pojo.FileCodeWriterWithEncoding;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.util.Collection;
 import java.util.Properties;
 
 /**
@@ -45,9 +50,27 @@ public class CommonUtils {
      * @param folder that may not exist.
      */
     public static void ensurePathToFolderExist(File folder) throws IOException {
-
         if (!folder.exists() && !folder.mkdirs())
             throw new IOException("Couldn't create a directory: "+folder.getAbsolutePath());
+    }
+
+    /**
+     * Finds JSON schema files within a given directory (and optionally its subdirectories).
+     * All files found are filtered by .json extension.
+     *
+     * @param directory the directory to search in
+     * @return a collection of {@link java.io.File} with the matching files
+     */
+    public static Collection<File> listSchemaFiles(File directory) {
+        return FileUtils.listFiles(
+                directory,
+                new RegexFileFilter("^(.*?).json"),
+                DirectoryFileFilter.DIRECTORY
+        );
+    }
+
+    public static String getRelativePath(URI base, URI absolute) {
+        return base.relativize(absolute).getPath();
     }
 
     /**
