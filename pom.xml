@@ -25,13 +25,13 @@
 
         <jdk.version>11</jdk.version>
         <junit.version>4.13.2</junit.version>
-        <slf4j.version>1.7.33</slf4j.version>
-        <log4j.version>2.17.1</log4j.version>
+        <slf4j.version>1.7.36</slf4j.version>
+        <log4j.version>2.17.2</log4j.version>
 
-        <jackson.version>2.13.2</jackson.version>
-        <swagger.version>2.1.13</swagger.version>
+        <jackson.version>2.13.3</jackson.version>
+        <swagger.version>2.2.0</swagger.version>
 
-        <jsonschema2pojo.version>1.1.1</jsonschema2pojo.version>
+        <jsonschema2pojo.version>1.1.2</jsonschema2pojo.version>
         <pojo2jsonschema.version>1.16</pojo2jsonschema.version>
         <bean.validation.api.version>2.0.1.Final</bean.validation.api.version>
 
@@ -111,13 +111,13 @@
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>2.3.1</version>
+            <version>2.4.0-b180830.0359</version>
         </dependency>
 
         <dependency>
             <groupId>org.openjdk.nashorn</groupId>
             <artifactId>nashorn-core</artifactId>
-            <version>15.3</version>
+            <version>15.4</version>
         </dependency>
 
         <!-- Tool to generate DTO style Java classes from JSON schema -->
