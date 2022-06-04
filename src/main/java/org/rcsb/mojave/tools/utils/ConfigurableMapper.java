@@ -2,9 +2,12 @@ package org.rcsb.mojave.tools.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Wrapper around Jackson ObjectMapper which is a JSON serialization/deserialization library for Java.
@@ -21,19 +24,23 @@ public class ConfigurableMapper {
 
     private static ObjectMapper mapper;
 
-    private static void configure() {
-
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
-
-        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
-    }
-
     public static ObjectMapper getMapper() {
         if (mapper == null) {
-            mapper = new ObjectMapper();
-            configure();
+            mapper = JsonMapper.builder()
+                    .enable(SerializationFeature.INDENT_OUTPUT)
+                    .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                    .enable(JsonParser.Feature.ALLOW_COMMENTS)
+                    .enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES)
+                    .serializationInclusion(JsonInclude.Include.NON_EMPTY)
+                    .build();
+            mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+
+            mapper.configOverride(List.class).setInclude(
+                    JsonInclude.Value.construct(JsonInclude.Include.NON_EMPTY, null));
+            mapper.configOverride(Set.class).setInclude(
+                    JsonInclude.Value.construct(JsonInclude.Include.NON_EMPTY, null));
+            mapper.configOverride(Map.class).setInclude(
+                    JsonInclude.Value.construct(JsonInclude.Include.NON_EMPTY, null));
         }
         return mapper;
     }
