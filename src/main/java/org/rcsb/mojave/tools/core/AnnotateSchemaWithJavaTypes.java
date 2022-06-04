@@ -10,6 +10,7 @@ import org.rcsb.mojave.tools.utils.CommonUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Collection;
 
 import static java.util.Collections.singletonList;
 
@@ -37,16 +38,14 @@ public class AnnotateSchemaWithJavaTypes {
         String outputDirectory = cmd.valueOf("-o").get(0);
         String targetPackage = cmd.valueOf("-t").get(0);
 
-        boolean useTitleAsClassname = false;
-        if (cmd.hasOption("-n") && Boolean.parseBoolean(cmd.valueOf("-n").get(0)))
-            useTitleAsClassname = true;
+        boolean useTitleAsClassname = cmd.hasOption("-n") && Boolean.parseBoolean(cmd.valueOf("-n").get(0));
 
         File schemasDir = new File(sourceDirectory);
         if (!schemasDir.exists())
             throw new IllegalStateException("Folder with input schemas does not exist.");
 
-        File[] files = schemasDir.listFiles(File::isFile);
-        if (files == null || files.length == 0)
+        Collection<File> files = CommonUtils.listSchemaFiles(schemasDir);
+        if (files.size() == 0)
             throw new IllegalStateException("There are no schemas to process in "+schemasDir.getAbsolutePath());
 
         File outputDir = new File(outputDirectory);
@@ -65,7 +64,8 @@ public class AnnotateSchemaWithJavaTypes {
                     .withSchemaTitleAsName(useTitleAsClassname)
                     .build();
             walker.walk();
-            String finalSchemaLocation = Paths.get(outputDirectory, f.getName()).toFile().getAbsolutePath();
+            String filePath = CommonUtils.getRelativePath(schemasDir.toURI(), f.toURI());
+            String finalSchemaLocation = Paths.get(outputDirectory, filePath).toFile().getAbsolutePath();
             loader.writeSchema(finalSchemaLocation, schema);
         }
     }

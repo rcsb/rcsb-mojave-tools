@@ -3,6 +3,9 @@ package org.rcsb.mojave.tools.core;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.CaseFormat;
 import com.sun.codemodel.*;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.DirectoryFileFilter;
+import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.rcsb.mojave.tools.jsonschema.SchemaLoader;
 import org.rcsb.mojave.tools.jsonschema.traversal.JsonSchemaWalker;
 import org.rcsb.mojave.tools.jsonschema.traversal.visitors.FieldNamesCollector;
@@ -12,6 +15,7 @@ import org.rcsb.mojave.tools.utils.NameUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,7 +33,7 @@ import static java.util.Collections.singletonList;
  */
 public class GenerateSchemaConstants {
 
-    private SchemaLoader loader;
+    private final SchemaLoader loader;
 
     private GenerateSchemaConstants() {
         loader = new SchemaLoader();
@@ -81,8 +85,8 @@ public class GenerateSchemaConstants {
      */
     private void run(File schemasDir, File outputDir, String fqp) throws IOException, JClassAlreadyExistsException {
 
-        File[] files = schemasDir.listFiles(File::isFile);
-        if (files == null || files.length == 0)
+        Collection<File> files = CommonUtils.listSchemaFiles(schemasDir);
+        if (files.size() == 0)
             throw new IllegalStateException("There are no schemas to process in "+schemasDir.getAbsolutePath());
 
         FieldNamesCollector visitor = new FieldNamesCollector();

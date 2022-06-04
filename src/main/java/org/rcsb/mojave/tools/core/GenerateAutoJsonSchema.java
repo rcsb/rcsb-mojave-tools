@@ -11,6 +11,7 @@ import org.rcsb.mojave.tools.utils.CommonUtils;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -49,8 +50,8 @@ public class GenerateAutoJsonSchema {
         SchemaLoader loader = new SchemaLoader();
 
         File folder = new File(coreSchemasLocation);
-        File[] files = folder.listFiles(File::isFile);
-        if (files == null || files.length == 0)
+        Collection<File> files = CommonUtils.listSchemaFiles(folder);
+        if (files.size() == 0)
             throw new IllegalStateException("There are no schemas to process in "+folder.getAbsolutePath());
 
         for(File f : files) {
