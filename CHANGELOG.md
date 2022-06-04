@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] -  2022-06-03
+### Upgraded
+- Guava 31.1-jre
+- Log4j 2.17.2
+- jsonschema2pojo 1.1.2
+- Swagger 2.2.0
+- Jackson 2.13.3
+- jaxb-api 2.4.0-b180830.0359
+- nashorn-core 15.4
+
+### Added
+- Support for folder organization for generation jobs
+
 ## [1.5.1] -  2022-04-01
 ### Upgraded
 - Jackson and Swagger libraries
