@@ -80,6 +80,12 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
         <!-- Used by jsonschema2pojo -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
