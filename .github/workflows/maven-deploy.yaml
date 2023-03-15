@@ -2,8 +2,9 @@ name: MavenDeploy
 
 on:
   push:
+    branches:
+      - '*'
 
 jobs:
   maven-deploy:
     uses: rcsb/devops-cicd-github-actions/.github/workflows/maven-deploy.yaml@master
-
