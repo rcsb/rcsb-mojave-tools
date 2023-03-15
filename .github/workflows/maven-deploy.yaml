@@ -3,7 +3,7 @@ name: MavenDeploy
 on:
   push:
     branches:
-      - '*'
+      - '**'
 
 jobs:
   maven-deploy:
