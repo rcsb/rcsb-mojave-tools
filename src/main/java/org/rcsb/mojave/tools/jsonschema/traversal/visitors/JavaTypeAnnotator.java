@@ -28,7 +28,8 @@ public class JavaTypeAnnotator implements Visitor {
 
     private static final String ILLEGAL_CHARACTER_SET_REGEX = "[^0-9a-zA-Z$]";
 
-    private static List<String> specialFieldNames = asList("type", "source");
+    private static final List<String> commonAttributeNames = asList("type", "source");
+    private static final List<String> commonCategoryNames = asList("additional_properties");
 
     private String targetPackage;
 
@@ -61,6 +62,11 @@ public class JavaTypeAnnotator implements Visitor {
                     .append(anArr.substring(1));
         }
         return sb.toString().trim();
+    }
+
+    private String getParentNameFromLineage(String name, List<String> lineage) {
+        int index = lineage.indexOf(name);
+        return index !=0 ? lineage.get(index - 1) : null;
     }
 
     /**
@@ -97,10 +103,19 @@ public class JavaTypeAnnotator implements Visitor {
             if (ctx.getParentFieldName() != null) {
                 String parentName = ctx.getParentFieldName();
                 className = toTitleCase(parentName)+className;
-                if (ctx.getLineage().size() >= 3 && specialFieldNames.contains(name)) {
-                    String additionalPrefix = ctx.getLineage().get(ctx.getLineage().size() - 3);
-                    additionalPrefix = toTitleCase(additionalPrefix);
-                    className = additionalPrefix+className;
+                if (ctx.getLineage().size() >= 3) {
+                    if (commonAttributeNames.contains(name)) {
+                        parentName = getParentNameFromLineage(parentName, ctx.getLineage());
+                        if (parentName != null) {
+                            className = toTitleCase(parentName)+className;
+                        }
+                    }
+                    if (commonCategoryNames.contains(parentName)) {
+                        parentName = getParentNameFromLineage(parentName, ctx.getLineage());
+                        if (parentName != null) {
+                            className = toTitleCase(parentName)+className;
+                        }
+                    }
                 }
             }
 
