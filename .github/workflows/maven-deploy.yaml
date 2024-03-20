@@ -7,4 +7,4 @@ on:
 
 jobs:
   maven-deploy:
-    uses: rcsb/devops-cicd-github-actions/.github/workflows/maven-deploy.yaml@master
+    uses: rcsb/devops-cicd-github-actions/.github/workflows/run-tests.yaml@master
