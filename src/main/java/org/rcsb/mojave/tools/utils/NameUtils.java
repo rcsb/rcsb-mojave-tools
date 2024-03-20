@@ -46,7 +46,7 @@ public final class NameUtils {
             modified = "_" + modified;
         }
         if (!modified.equals(name.replace(' ', '_'))) {
-            logger.debug("Renamed field '{}' → '{}'.", name, modified);
+            logger.info("Renamed field '{}' → '{}'.", name, modified);
         }
         return modified;
     }
