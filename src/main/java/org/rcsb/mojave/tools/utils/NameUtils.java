@@ -46,7 +46,7 @@ public final class NameUtils {
             modified = "_" + modified;
         }
         if (!modified.equals(name.replace(' ', '_'))) {
-            logger.info("Renamed field '{}' → '{}'.", name, modified);
+            logger.info("Renamed field '{}' → '{}' (because it violates java naming rules).", name, modified);
         }
         return modified;
     }
@@ -61,11 +61,19 @@ public final class NameUtils {
      * @return case insensitive representation for a name
      */
     public static String makeUnique(String name, Collection<String> existingNames) {
+        var modified = uniqify(name, existingNames);
+        if (!modified.equals(name)) {
+            logger.info("Renamed field '{}' → '{}' (because not unique compared to existing names).", name, modified);
+        }
+        return modified;
+    }
+
+    private static String uniqify(String name, Collection<String> existingNames) {
         for (String existingName : existingNames) {
             if (name.equalsIgnoreCase(existingName)) {
-                return name;
+                return makeUnique(name + "_", existingNames);
             }
         }
-        return makeUnique(name + "_", existingNames);
+        return name;
     }
 }
