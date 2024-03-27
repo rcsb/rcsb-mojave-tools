@@ -90,7 +90,7 @@ public class JsonSchemaNodeUtils {
         if (baseURI == null || refValue.startsWith("#") || SchemaLoader.hasScheme(refValue))
             refPath = refValue;
         else
-            refPath = Paths.get(baseURI, refValue).toFile().getCanonicalPath();
+            refPath = Paths.get(baseURI, refValue).toFile().getPath();
         return new JsonReference(refPath);
     }
 
