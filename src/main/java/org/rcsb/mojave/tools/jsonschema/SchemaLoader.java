@@ -94,13 +94,14 @@ public class SchemaLoader {
 
             InputStream is;
             String schemeSpecificPart = uri.getSchemeSpecificPart();
-            if (Paths.get(schemeSpecificPart).toFile().exists()) {
-                is = new FileInputStream(Paths.get(schemeSpecificPart).toFile());
+            File probeFile = new File(schemeSpecificPart);
+            if (probeFile.exists() && probeFile.isFile()) {
+                is = new FileInputStream(probeFile);
             } else {
                 is = SchemaLoader.class.getResourceAsStream(schemeSpecificPart);
             }
             if (is == null)
-                throw new IOException("Cannot read schema from " + uri.getSchemeSpecificPart() + ". Resource doesn't exist.");
+                throw new IOException("Cannot read schema from " + uri.getSchemeSpecificPart() + ". The path doesn't exist as a file in file system nor as a java-packaged resource.");
             return readSchema(is);
 
         } else if (uri.getScheme().equals(JAR_SCHEME)) {
