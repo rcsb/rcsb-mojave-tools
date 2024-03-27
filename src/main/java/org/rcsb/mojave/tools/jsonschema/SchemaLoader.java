@@ -92,7 +92,13 @@ public class SchemaLoader {
 
         if (uri.getScheme() == null ) {
 
-            InputStream is = SchemaLoader.class.getResourceAsStream(uri.getSchemeSpecificPart());
+            InputStream is;
+            String schemeSpecificPart = uri.getSchemeSpecificPart();
+            if (Paths.get(schemeSpecificPart).toFile().exists()) {
+                is = new FileInputStream(Paths.get(schemeSpecificPart).toFile());
+            } else {
+                is = SchemaLoader.class.getResourceAsStream(schemeSpecificPart);
+            }
             if (is == null)
                 throw new IOException("Cannot read schema from " + uri.getSchemeSpecificPart() + ". Resource doesn't exist.");
             return readSchema(is);
