@@ -169,4 +169,6 @@ public class TestSchemaRefResolver {
         assertEquals(MetaSchemaType.STRING, schema.get(MetaSchemaProperty.PROPERTIES)
                 .get("field2").get(MetaSchemaProperty.TYPE).asText());
     }
+
+    // TODO test case for relative path
 }
