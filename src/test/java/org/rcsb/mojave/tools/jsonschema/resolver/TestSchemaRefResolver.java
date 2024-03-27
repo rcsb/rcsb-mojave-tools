@@ -11,16 +11,11 @@ import org.rcsb.mojave.tools.jsonschema.constants.MetaSchemaType;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -125,21 +120,25 @@ public class TestSchemaRefResolver {
                 .get("field2").get(MetaSchemaProperty.TYPE).asText());
     }
 
-    private void setUpMockSchemainFileSystem() throws IOException {
-        Path tmpDir = Paths.get(System.getProperty("java.io.tmpdir"));
+    private void setUpMockSchemainFileSystem(File tmpDir) throws IOException {
         InputStream isRootSchema = TestSchemaRefResolver.class.getResourceAsStream("/schema/resolving/json-schema-chase-refs.json");
         InputStream isDir1Schema = TestSchemaRefResolver.class.getResourceAsStream("/schema/resolving/dir1/json-schema-fragment-1.json");
         InputStream isDir2f2Schema = TestSchemaRefResolver.class.getResourceAsStream("/schema/resolving/dir2/json-schema-fragment-2.json");
         InputStream isDir2f3Schema = TestSchemaRefResolver.class.getResourceAsStream("/schema/resolving/dir2/json-schema-fragment-3.json");
-        writeIsToFileModifyingId(isRootSchema, tmpDir + "/json-schema-chase-refs.json", new File(tmpDir.toFile(), "json-schema-chase-refs.json"));
-        File dir1 = new File(tmpDir.toFile(), "dir1");
-        dir1.mkdir();
-        writeIsToFileModifyingId(isDir1Schema, tmpDir + "/dir1/json-schema-fragment-1.json", new File(dir1, "json-schema-fragment-1.json"));
-        File dir2 = new File(tmpDir.toFile(), "dir2");
-        dir2.mkdir();
-        writeIsToFileModifyingId(isDir2f2Schema, null, new File(dir2, "json-schema-fragment-2.json"));
-        writeIsToFileModifyingId(isDir2f3Schema, null, new File(dir2, "json-schema-fragment-3.json"));
-        // TODO cleanup
+        // creating dirs
+        File dir1 = new File(tmpDir, "dir1"); dir1.deleteOnExit();
+        dir1.mkdirs();
+        File dir2 = new File(tmpDir, "dir2"); dir2.deleteOnExit();
+        dir2.mkdirs();
+        // creating files
+        File f1 = new File(dir1, "json-schema-fragment-1.json"); f1.deleteOnExit();
+        File f2 = new File(tmpDir, "json-schema-chase-refs.json"); f2.deleteOnExit();
+        File f3 = new File(dir2, "json-schema-fragment-2.json"); f3.deleteOnExit();
+        File f4 = new File(dir2, "json-schema-fragment-3.json"); f4.deleteOnExit();
+        writeIsToFileModifyingId(isDir1Schema, dir1 + "/json-schema-fragment-1.json", f1);
+        writeIsToFileModifyingId(isRootSchema, tmpDir + "/json-schema-chase-refs.json", f2);
+        writeIsToFileModifyingId(isDir2f2Schema, null, f3);
+        writeIsToFileModifyingId(isDir2f3Schema, null, f4);
     }
 
     private void writeIsToFileModifyingId(InputStream is, String id, File outFile) throws IOException {
@@ -157,9 +156,10 @@ public class TestSchemaRefResolver {
 
     @Test
     public void shouldChaseReferencesWhenSchemaFromFileSystem() throws IOException {
-        setUpMockSchemainFileSystem();
-        Path tmpDir = Paths.get(System.getProperty("java.io.tmpdir"));
-        JsonNode schema = loader.readSchema(new File(tmpDir.toFile(), "json-schema-chase-refs.json"));
+        File tmpDir = new File(System.getProperty("java.io.tmpdir"), "rcsb-mojave-tools-test-tmp"); tmpDir.deleteOnExit();
+        setUpMockSchemainFileSystem(tmpDir);
+
+        JsonNode schema = loader.readSchema(new File(tmpDir, "json-schema-chase-refs.json"));
 
         SchemaRefResolver resolver = new SchemaRefResolver(schema, loader);
         resolver.resolveInline();
@@ -170,5 +170,4 @@ public class TestSchemaRefResolver {
                 .get("field2").get(MetaSchemaProperty.TYPE).asText());
     }
 
-    // TODO test case for relative path
 }
