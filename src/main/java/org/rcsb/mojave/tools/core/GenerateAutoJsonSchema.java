@@ -40,9 +40,9 @@ public class GenerateAutoJsonSchema {
         String autoSchemasLocation = cmd.valueOf("-o").get(0);
         String targetPackage = cmd.valueOf("-t").get(0);
 
-        String supressEnumsParam = cmd.valueOf("-se").get(0);
-        boolean supressEnums = supressEnumsParam.isEmpty()
-                || Boolean.parseBoolean(supressEnumsParam);
+        String suppressEnumsParam = cmd.valueOf("-se").get(0);
+        boolean suppressEnums = suppressEnumsParam.isEmpty()
+                || Boolean.parseBoolean(suppressEnumsParam);
 
         CommonUtils.ensurePathToFolderExist(new File(autoSchemasLocation));
 
@@ -51,7 +51,7 @@ public class GenerateAutoJsonSchema {
         JavaTypeAnnotator javaTypeNameVisitor = new JavaTypeAnnotator();
         javaTypeNameVisitor.setTargetPackage(targetPackage);
         visitors.add(javaTypeNameVisitor);
-        if (supressEnums) {
+        if (suppressEnums) {
             // Removes enum annotation from schema nodes transforming the definition
             // from controlled vocabulary to a free text string
             EnumTransformer javaEnumVisitor = new EnumTransformer();
