@@ -11,15 +11,14 @@ import org.rcsb.mojave.tools.utils.CommonUtils;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import static java.util.Arrays.asList;
 
 /**
  * This tool generates JSON schemas used to automatically produce corresponding Java classes. It annotates
  * all schemas in a given "core schemas" folder with Java type names.
- *
+ * <p>
  * Created on 9/17/18.
  *
  * @author Yana Valasatava
@@ -40,12 +39,23 @@ public class GenerateAutoJsonSchema {
         String coreSchemasLocation = cmd.valueOf("-i").get(0);
         String autoSchemasLocation = cmd.valueOf("-o").get(0);
         String targetPackage = cmd.valueOf("-t").get(0);
+
+        boolean suppressEnums = cmd.valueOf("-se").isEmpty()
+                || Boolean.parseBoolean(cmd.valueOf("-se").get(0));
+
         CommonUtils.ensurePathToFolderExist(new File(autoSchemasLocation));
 
-        EnumTransformer javaEnumVisitor = new EnumTransformer();
+        List<Visitor> visitors = new ArrayList<>();
+        // Adds annotations to configure the Java type names
         JavaTypeAnnotator javaTypeNameVisitor = new JavaTypeAnnotator();
         javaTypeNameVisitor.setTargetPackage(targetPackage);
-        List<Visitor> visitors = asList(javaEnumVisitor, javaTypeNameVisitor);
+        visitors.add(javaTypeNameVisitor);
+        if (suppressEnums) {
+            // Removes enum annotation from schema nodes transforming the definition
+            // from controlled vocabulary to a free text string
+            EnumTransformer javaEnumVisitor = new EnumTransformer();
+            visitors.add(javaEnumVisitor);
+        }
 
         SchemaLoader loader = new SchemaLoader();
 
