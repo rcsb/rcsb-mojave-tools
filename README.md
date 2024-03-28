@@ -1,6 +1,13 @@
 # RCSB-MOJAVE-TOOLS
 This repository contains tools to work with JSON schemas. You can use it for:
 
+#### Releasing project to Maven Central
+This project should be released to maven central under the `org.rcsb` group id. Run:
+
+`mvn -Prelease release:prepare`
+
+`mvn -Prelease release:perform`
+
 #### Loading JSON Schemas
 You can use `org.rcsb.mojave.tools.jsonschema.SchemaLoader` API to read and write schemas.
 
