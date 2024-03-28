@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.rcsb.mojave.tools.core.GenerateCombinedJsonSchema;
 import org.rcsb.mojave.tools.utils.CommonUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URI;
@@ -23,6 +25,8 @@ import java.nio.file.Paths;
  * @since 1.0.0
  */
 public class SchemaLoader {
+
+    private static final Logger logger = LoggerFactory.getLogger(SchemaLoader.class);
 
     private final ObjectMapper objectMapper;
 
@@ -92,9 +96,20 @@ public class SchemaLoader {
 
         if (uri.getScheme() == null ) {
 
-            InputStream is = SchemaLoader.class.getResourceAsStream(uri.getSchemeSpecificPart());
-            if (is == null)
-                throw new IOException("Cannot read schema from " + uri.getSchemeSpecificPart() + ". Resource doesn't exist.");
+            InputStream is;
+            String schemeSpecificPart = uri.getSchemeSpecificPart();
+            File probeFile = new File(schemeSpecificPart);
+            URL resourceUrl = SchemaLoader.class.getResource(schemeSpecificPart);
+            if (probeFile.exists() && probeFile.isFile()) {
+                is = new FileInputStream(probeFile);
+                if (resourceUrl != null)
+                    logger.warn("Schema uri '{}' can be resolved both to a file system path and to a java-packaged resource. Will use the file system one.", uri.getSchemeSpecificPart());
+            } else if (resourceUrl != null) {
+                is = resourceUrl.openStream();
+            } else {
+                throw new IOException("Cannot read schema from " + uri.getSchemeSpecificPart() + ". The path doesn't exist as a file in file system nor as a java-packaged resource.");
+            }
+
             return readSchema(is);
 
         } else if (uri.getScheme().equals(JAR_SCHEME)) {
