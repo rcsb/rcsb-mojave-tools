@@ -40,9 +40,8 @@ public class GenerateAutoJsonSchema {
         String autoSchemasLocation = cmd.valueOf("-o").get(0);
         String targetPackage = cmd.valueOf("-t").get(0);
 
-        String suppressEnumsParam = cmd.valueOf("-se").get(0);
-        boolean suppressEnums = suppressEnumsParam.isEmpty()
-                || Boolean.parseBoolean(suppressEnumsParam);
+        boolean suppressEnums = cmd.valueOf("-se").isEmpty()
+                || Boolean.parseBoolean(cmd.valueOf("-se").get(0));
 
         CommonUtils.ensurePathToFolderExist(new File(autoSchemasLocation));
 
