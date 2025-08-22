@@ -10,18 +10,20 @@ import org.rcsb.mojave.tools.jsonschema.traversal.visitors.BsonTypeAliasConverte
 import org.rcsb.mojave.tools.jsonschema.traversal.visitors.KeywordsSyntaxChecker;
 import org.rcsb.mojave.tools.jsonschema.traversal.visitors.Visitor;
 import org.rcsb.mojave.tools.jsonschema.utils.SchemaVersion;
+import org.rcsb.mojave.tools.utils.CommandOptions;
 import org.rcsb.mojave.tools.utils.CommonUtils;
 import org.rcsb.mojave.tools.utils.ConfigurableMapper;
 
 import java.io.File;
-import java.net.URL;
+import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
  * This tool updates all core JSON schemas to BSON types and produce new schemas
  * that can be used for validation in MongoDB.
- *
+ * <p>
  * Created on 9/20/18.
  *
  * @author Yana Valasatava
@@ -31,40 +33,54 @@ public class GenerateValidationBsonSchema {
 
     public static void main(String[] args) throws Exception {
 
-        if (args.length < 2)
-            throw new IllegalArgumentException("Method has been passed less arguments than required.");
+        CommandOptions cmd = new CommandOptions(args);
+        if (!cmd.hasOption("-i"))
+            throw new IllegalArgumentException("Input arguments are not specified.");
+        if (!cmd.hasOption("-o"))
+            throw new IllegalArgumentException("Output argument is not specified.");
 
-        String coreSchemasLocation = args[0];
-        String validationSchemasLocation = args[1];
+        String inputSchemasLocation = cmd.valueOf("-i").get(0);
+        String outputSchemasLocation = cmd.valueOf("-o").get(0);
+        CommonUtils.ensurePathToFolderExist(new File(outputSchemasLocation));
 
-        File file = new File(validationSchemasLocation);
-        CommonUtils.ensurePathToFolderExist(file.getParentFile());
+        String fileNamePrefix = null;
+        if (cmd.hasOption("-p"))
+            fileNamePrefix = cmd.valueOf("-p").get(0);
+
+        File folder = new File(inputSchemasLocation);
+        Collection<File> files = CommonUtils.listSchemaFiles(folder);
+        if (files.size() == 0)
+            throw new IllegalStateException("There are no schemas to process in "+folder.getAbsolutePath());
 
         SchemaLoader loader = new SchemaLoader();
-        JsonNode schema = loader.readSchema(new URL("file://" + coreSchemasLocation));
-
         List<Visitor> visitors = Arrays.asList(
                 new KeywordsSyntaxChecker(SchemaVersion.DRAFTV4.getSchema()),
                 new BsonTypeAliasConverter());
+        for (File f : files) {
+            JsonNode schema = loader.readSchema(f.toURI());
+            JsonSchemaWalker walker = new JsonSchemaWalker.Builder()
+                    .fromInstance(schema)
+                    .acceptingVisitors(visitors)
+                    .build();
+            walker.walk();
 
-        JsonSchemaWalker walker = new JsonSchemaWalker.Builder()
-                .fromInstance(schema)
-                .acceptingVisitors(visitors)
-                .build();
-        walker.walk();
+            JsonNode properties = schema.get(MetaSchemaProperty.PROPERTIES);
 
-        JsonNode properties = schema.get(MetaSchemaProperty.PROPERTIES);
+            // if JSON schema requires validation of additional properties to be false,
+            // an explicit '_id' field is needed in the schema
+            ObjectNode idNode = ConfigurableMapper.getMapper().createObjectNode();
+            idNode.put(MetaSchemaModifier.BSON_TYPE, "objectId");
+            ((ObjectNode) properties).set("_id", idNode);
 
-        // if JSON schema requires validation of additional properties to be false,
-        // an explicit '_id' field is needed in the schema
-        ObjectNode idNode = ConfigurableMapper.getMapper().createObjectNode();
-        idNode.put(MetaSchemaModifier.BSON_TYPE, "objectId");
-        ((ObjectNode) properties).set("_id", idNode);
+            // keywords '$schema' and '$comment' are not supported by MongoDB v3.6
+            ((ObjectNode) schema).remove(MetaSchemaProperty.SCHEMA);
+            ((ObjectNode) schema).remove(MetaSchemaProperty.COMMENT);
 
-        // keywords '$schema' and '$comment' are not supported by MongoDB v3.6
-        ((ObjectNode) schema).remove(MetaSchemaProperty.SCHEMA);
-        ((ObjectNode) schema).remove(MetaSchemaProperty.COMMENT);
-
-        loader.writeSchema(validationSchemasLocation, schema);
+            String fileName = (fileNamePrefix != null && !fileNamePrefix.isEmpty())
+                    ? fileNamePrefix + f.getName()
+                    : f.getName();
+            String validationSchemasLocation = Paths.get(outputSchemasLocation, fileName).toString();
+            loader.writeSchema(validationSchemasLocation, schema);
+        }
     }
 }
